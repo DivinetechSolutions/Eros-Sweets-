@@ -155,13 +155,7 @@
     height: 100%;
 }
 
-.edit-icon
-{
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    height: auto;
-}
+
 .search-div2 .filter2{
     height: 30px;
     width: 8rem;

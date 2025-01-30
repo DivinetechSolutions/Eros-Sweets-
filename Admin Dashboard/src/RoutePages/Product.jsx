@@ -8,12 +8,12 @@ import { toast } from 'react-toastify';
 const Product = () => {
   const [product2, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7; 
+  const itemsPerPage = 7;
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null); // State to hold selected product for editing
-  const [editId , setEditId] = useState(null);
+  const [editId, setEditId] = useState(null);
 
   const [formData, setFormData] = useState({
     ProductName: '',
@@ -28,16 +28,32 @@ const Product = () => {
   });
 
 
-  const options = [
-    { id: "sweet", label: "Sweet" },
-    { id: "namkeen", label: "Namkeen" },
-    { id: "sugar_free", label: "Sugar Free" },
-    { id: "sweet_hamper", label: "Sweet Hampers" },
-    { id: "namkeen_hampers", label: "Namkeen Hampers" },
-    { id: "corporate_collection", label: "Corporate Collection" },
-    { id: "wedding_collection", label: "Wedding Collection" },
-    { id: "combos", label: "Combos" },
-  ];
+  // const options = [
+  //   { id: "sweet", label: "Sweet" },
+  //   { id: "namkeen", label: "Namkeen" },
+  //   { id: "sugar_free", label: "Sugar Free" },
+  //   { id: "sweet_hampers", label: "Sweet Hampers" },
+  //   { id: "namkeen_hamper", label: "Namkeen Hampers" },
+  //   { id: "corporate_collection", label: "Corporate Collection" },
+  //   { id: "wedding_collection", label: "Wedding Collection" },
+  //   { id: "combos", label: "Combos" },
+  // ];
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetchProducts();
+    fetchCategories(); // Fetch categories when the component loads
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/category'); // Adjust the API endpoint as per your backend
+      setCategories(response.data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
 
   useEffect(() => {
     fetchProducts();
@@ -52,26 +68,39 @@ const Product = () => {
     }
   };
 
-const filteredProducts = product2.filter(product => {
-  const matchesSearch = product.ProductName.toLowerCase().includes(searchQuery.toLowerCase());
-  const matchesCategory = 
-    selectedOptions.length === 0 || 
-    selectedOptions.includes(product.Category.toLowerCase());
-  return matchesSearch && matchesCategory;
+  // const filteredProducts = product2.filter(product => {
+  //   const matchesSearch = product.ProductName.toLowerCase().includes(searchQuery.toLowerCase());
+  //   const matchesCategory = 
+  //     selectedOptions.length === 0 || 
+  //     selectedOptions.includes(product.Category.toLowerCase());
+  //   return matchesSearch && matchesCategory;
+  // });
+
+  // const filteredProducts = product2.filter(product => {
+  //   const productName = product?.ProductName?.toLowerCase() || "";
+  //   const productCategory = product?.Category?.toLowerCase() || "";
+  //   const searchValue = searchQuery?.toLowerCase() || "";
+
+  //   const matchesSearch = productName.includes(searchValue);
+  //   const matchesCategory = 
+  // selectedOptions.length === 0 || selectedOptions.includes(product.Category);
+
+
+  //   return matchesSearch && matchesCategory;
+  // });
+
+  const filteredProducts = product2.filter(product => {
+    const productName = product?.ProductName?.toLowerCase() || "";
+    const productCategory = product?.Category?.toLowerCase() || ""; 
+    const searchValue = searchQuery?.toLowerCase() || "";
+
+    const matchesSearch = productName.includes(searchValue.toString());
+
+    const matchesCategory = 
+      selectedOptions.length === 0 || selectedOptions.includes(product.Category.toString());
+
+    return matchesSearch && matchesCategory;
 });
-
-// const filteredProducts = product2.filter(product => {
-//   const productName = product?.ProductName?.toLowerCase() || ""; // Safe access with a fallback
-//   const productCategory = product?.Category?.toLowerCase() || ""; // Safe access with a fallback
-//   const searchValue = searchQuery?.toLowerCase() || ""; // Handle undefined searchQuery
-
-//   const matchesSearch = productName.includes(searchValue);
-//   const matchesCategory = 
-//     Array.isArray(selectedOptions) && 
-//     (selectedOptions.length === 0 || selectedOptions.includes(productCategory));
-
-//   return matchesSearch && matchesCategory;
-// });
 
 
   const indexOfLastProduct = currentPage * itemsPerPage;
@@ -89,16 +118,17 @@ const filteredProducts = product2.filter(product => {
   };
 
   const handleDelete = async (id) => {
-    
-   
-  
+
+
+
     try {
       await axios.delete(`http://localhost:5000/product/${id}`);
       toast.success('Product deleted successfully!');
-      fetchProducts(); 
+      fetchProducts();
+
     } catch (error) {
       console.error('Error deleting product:', error);
-      alert('Failed to delete product.');
+      toast.warning('Failed to delete product.');
     }
   };
 
@@ -119,161 +149,163 @@ const filteredProducts = product2.filter(product => {
 
   };
 
-  const handleCancelEdit = ()=>{
+  const handleCancelEdit = () => {
     setSelectedProduct(null);
   }
   const navigate = useNavigate();
 
-  
 
- 
+
+
   return (
-    
-      <div className="main-box">
-        {selectedProduct ? (
-          <AddForm
-            product={selectedProduct} // Pass selected product to form
-            onCancel={() => handleCancelEdit(null)} // Handle form cancel action
-          />
-        ) : (
-          <>
-            <div className="top-bar">
-              <button className="back-btn" onClick={() => navigate(-1)}>
-                <i className="fa-solid fa-chevron-left"></i>
+
+    <div className="main-box">
+      {selectedProduct ? (
+        <AddForm
+          product={selectedProduct} // Pass selected product to form
+          onCancel={() => handleCancelEdit(null)} // Handle form cancel action
+        />
+      ) : (
+        <>
+          <div className="top-bar">
+            <button className="back-btn" onClick={() => navigate(-1)}>
+              <i className="fa-solid fa-chevron-left"></i>
+            </button>
+            <p>Products</p>
+            <div className="top-right">
+              <button className="btn-export">Export</button>
+              <button>
+                <Link to="/add-product" style={{ color: "#fff" }}>
+                  <i className="fa-solid fa-plus"></i> Add Product
+                </Link>
               </button>
-              <p>Products</p>
-              <div className="top-right">
-                <button className="btn-export">Export</button>
-                <button>
-                  <Link to="/add-product" style={{ color: "#fff" }}>
-                    <i className="fa-solid fa-plus"></i> Add Product
-                  </Link>
-                </button>
-              </div>
             </div>
+          </div>
 
-            <div className="main-bar">
-              <div className="search-div">
-                <div className="filter">
-                  <div className="custom-dropdown">
-                    <button className="dropdown-btn" onClick={toggleDropdown}>
-                      Filter
-                      <i className="fa-solid fa-angle-down down" style={{ marginLeft: "80px" }}></i>
-                    </button>
-                    {isOpen && (
-                      <div className="dropdown-menu" onMouseLeave={toggleDropdown}>
-                        <ul>
-                          {options.map((option) => (
-                            <li key={option.id}>
-                              <input
-                                type="checkbox"
-                                id={option.id}
-                                value={option.id}
-                                checked={selectedOptions.includes(option.id)}
-                                onChange={() => handleCheckboxChange(option.id)}
-                              />
-                              <label htmlFor={option.id}>{option.label}</label>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                </div>
+          <div className="main-bar">
+            <div className="search-div">
+              <div className="filter">
+                <div className="custom-dropdown">
+                  <button className="dropdown-btn" onClick={toggleDropdown}>
+                    Filter
+                    <i className="fa-solid fa-angle-down down" style={{ marginLeft: "80px" }}></i>
+                  </button>
+                  {isOpen && (
+                    <div className="dropdown-menu" onMouseLeave={toggleDropdown}>
+                      <ul>
+                        {categories.map((category ,index) => (
+                          <li key={index}>
+                            <input
+                              type="checkbox"
+                              id={category._id}
+                              value={category.name}
+                              checked={selectedOptions.includes(category.name)}
+                              onChange={() => handleCheckboxChange(category.name)}
+                            />
+                            <label htmlFor={category._id}>{category.name}</label>
+                          </li>
+                        ))}
 
-                <div className="search">
-                  <i className="fa-solid fa-search"></i>
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={handleSearch}
-                  />
-                </div>
-              </div>
-
-              <div className="product-list">
-                <div className="product-table">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Sr No</th>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Self Life</th>
-                        <th>StateOrigin</th>
-                        <th>Rating</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentProducts.map((product, index) => (
-                        <tr key={index}>
-                          <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
-                          <td className="product-details">
-                            <img src={product.ProductImage} alt={product.ProductName} />
-                            <div>
-                              <div className="product-name">{product.ProductName}</div>
-                              <div className="product-category">{product.Category}</div>
-                            </div>
-                          </td>
-                          <td>{product.Price}</td>
-                          <td>{product.ProductWeight}</td>
-                          <td>{product.ShelfLife}</td>
-                          <td>{product.StateOrigin}</td>
-                          <td>4.5</td>
-                          <td>
-                            <button className="edit">
-                              <Link to={`/edit/${product._id}`} style={{textDecoration:"none"}}>
-                              <i className="fa-solid fa-pen" style={{color:"blue"}}></i>
-                              </Link>
-                            </button>
-                            <button className="delete" onClick={()=>handleDelete(product._id)}>
-                              <i className="fa-solid fa-trash"></i>
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-
-                  <div className="pagination">
-                    <div>
-                      <button
-                        disabled={currentPage === 1}
-                        onClick={() => handlePageChange(currentPage - 1)}
-                      >
-                        <i className="fa-solid fa-arrow-left"></i>
-                      </button>
-
-                      {[...Array(totalPages).keys()].map((page) => (
-                        <button
-                          key={page + 1}
-                          style={{ color: currentPage === page + 1 ? '#9D0910' : '#5c5a5a' }}
-                          onClick={() => handlePageChange(page + 1)}
-                        >
-                          {page + 1}
-                        </button>
-                      ))}
-
-                      <button
-                        disabled={currentPage === totalPages}
-                        onClick={() => handlePageChange(currentPage + 1)}
-                      >
-                        <i className="fa-solid fa-arrow-right"></i>
-                      </button>
+                      </ul>
                     </div>
-                    <span style={{ color: "#5c5a5a", marginRight: "15px" }}>{filteredProducts.length} Result</span>
+                  )}
+                </div>
+              </div>
+
+              <div className="search">
+                <i className="fa-solid fa-search"></i>
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={handleSearch}
+                />
+              </div>
+            </div>
+
+            <div className="product-list">
+              <div className="product-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Sr No</th>
+                      <th>Product</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                      <th>Self Life</th>
+                      <th>StateOrigin</th>
+                      <th>Rating</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentProducts.map((product, index) => (
+                      <tr key={index}>
+                        <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
+                        <td className="product-details">
+                          <img src={product.ProductImage} alt={product.ProductName} />
+                          <div>
+                            <div className="product-name">{product.ProductName}</div>
+                            <div className="product-category">{product.Category}</div>
+                          </div>
+                        </td>
+                        <td>{product.Price}</td>
+                        <td>{product.ProductWeight}</td>
+                        <td>{product.ShelfLife}</td>
+                        <td>{product.StateOrigin}</td>
+                        <td>4.5</td>
+                        <td>
+                          <button className="edit">
+                            <Link to={`/edit/${product._id}`} style={{ textDecoration: "none" }}>
+                              <i className="fa-solid fa-pen" style={{ color: "blue" }}></i>
+                            </Link>
+                          </button>
+                          <button className="delete" onClick={() => handleDelete(product._id)}>
+                            <i className="fa-solid fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+
+                <div className="pagination">
+                  <div>
+                    <button
+                      disabled={currentPage === 1}
+                      onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                      <i className="fa-solid fa-arrow-left"></i>
+                    </button>
+
+                    {[...Array(totalPages).keys()].map((page) => (
+                      <button
+                        key={page + 1}
+                        style={{ color: currentPage === page + 1 ? '#9D0910' : '#5c5a5a' }}
+
+                        onClick={() => handlePageChange(page + 1)}
+                      >
+                        {page + 1}
+                      </button>
+                    ))}
+
+                    <button
+                      disabled={currentPage === totalPages}
+                      onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                      <i className="fa-solid fa-arrow-right"></i>
+                    </button>
                   </div>
+                  <span style={{ color: "#5c5a5a", marginRight: "15px" }}>{filteredProducts.length} Result</span>
                 </div>
               </div>
             </div>
-          </>
-        )}
-       
-      </div>
-    
+          </div>
+        </>
+      )}
+
+    </div>
+
   );
 };
 

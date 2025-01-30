@@ -149,7 +149,7 @@ body{
     border: 2px dashed #aaacae;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
     margin-top: 10px;
     margin-bottom: 15px;
     justify-content: center;

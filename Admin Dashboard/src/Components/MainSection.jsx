@@ -56,7 +56,7 @@ const MainSection = () => {
                             <button style={{ backgroundColor: "#FF9797" }}><i className="fa-regular fa-user" id='font'></i></button>
                         </div>
                         <div className="bottom">
-                            <p>Product</p>
+                            <p>Profile</p>
                         </div>
                     </div>
                  </Link>   

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import './Order.css'
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 
 
@@ -19,8 +20,7 @@ const Order = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null); // State to hold selected product for editing
-  const [editId, setEditId] = useState(null);
+
 
   const [formData, setFormData] = useState({
     ProductName: '',
@@ -35,16 +35,22 @@ const Order = () => {
   });
 
 
-  const options = [
-    { id: "sweet", label: "Sweet" },
-    { id: "namkeen", label: "Namkeen" },
-    { id: "sugar_free", label: "Sugar Free" },
-    { id: "sweet_hamper", label: "Sweet Hampers" },
-    { id: "namkeen_hampers", label: "Namkeen Hampers" },
-    { id: "corporate_collection", label: "Corporate Collection" },
-    { id: "wedding_collection", label: "Wedding Collection" },
-    { id: "combos", label: "Combos" },
-  ];
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetchProducts();
+    fetchCategories(); // Fetch categories when the component loads
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/category'); // Adjust the API endpoint as per your backend
+      setCategories(response.data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
+
 
   useEffect(() => {
     fetchProducts();
@@ -60,13 +66,17 @@ const Order = () => {
   };
 
   const filteredProducts = product2.filter(product => {
-    const matchesSearch = product.ProductName.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      selectedOptions.length === 0 ||
-      selectedOptions.includes(product.Category.toLowerCase());
-    return matchesSearch && matchesCategory;
-  });
+    const productName = product?.ProductName?.toLowerCase() || "";
+    const productCategory = product?.Category?.toLowerCase() || ""; // Ensure it's a string
+    const searchValue = searchQuery?.toLowerCase() || "";
 
+    const matchesSearch = productName.includes(searchValue.toString());
+
+    const matchesCategory = 
+      selectedOptions.length === 0 || selectedOptions.includes(product.Category.toString());
+
+    return matchesSearch && matchesCategory;
+});
 
   const indexOfLastProduct = currentPage * itemsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
@@ -83,16 +93,13 @@ const Order = () => {
   };
 
   const handleDelete = async (id) => {
-
-
-
     try {
       await axios.delete(`http://localhost:5000/product/${id}`);
       toast.success('Product deleted successfully!');
       fetchProducts();
     } catch (error) {
       console.error('Error deleting product:', error);
-      alert('Failed to delete product.');
+      toast.warning('Failed to delete product.');
     }
   };
 
@@ -108,7 +115,7 @@ const Order = () => {
 
   const handleEdit = (product) => {
     navigate('/add-form')
-    setEditId(product._id); // Set the ID for updating
+    setEditId(product._id);
     setFormData({ ...product });
 
   };
@@ -126,12 +133,7 @@ const Order = () => {
         </button>
         <p>Order</p>
         <div className="top-right">
-          <button className="btn-export">Export</button>
-          <button>
-            <Link to="/add-product" style={{ color: "#fff" }}>
-              <i className="fa-solid fa-plus"></i> Add Order
-            </Link>
-          </button>
+
         </div>
       </div>
 
@@ -140,40 +142,40 @@ const Order = () => {
           <div className="crd-left">
             <p>Processing</p>
             <h2>1,202</h2>
-            <p className='progress'><span>10%</span><i class="fa-solid fa-caret-up" style={{color:"green"}}></i>+120today</p>
+            <p className='progress'><span>10%</span><i className="fa-solid fa-caret-up" style={{ color: "green" }}></i>+120today</p>
           </div>
           <div className="crd-right">
-          <div className="icon-box">
-          <i class="fa-solid fa-box " style={{color:"#FFF"}}></i></div>
+            <div className="icon-box">
+              <i className="fa-solid fa-box " style={{ color: "#FFF" }}></i></div>
           </div>
         </div>
         <div className="crd"> <div className="crd-left">
-            <p>Shipped</p>
-            <h2>1,202</h2>
-            <p className='progress'><span>10%</span><i class="fa-solid fa-caret-up" style={{color:"green"}}></i>+120today</p>
-          </div>
+          <p>Shipped</p>
+          <h2>1,202</h2>
+          <p className='progress'><span>10%</span><i className="fa-solid fa-caret-up" style={{ color: "green" }}></i>+120today</p>
+        </div>
           <div className="crd-right">
-          <div className="icon-box" style={{backgroundColor:"#3250FF"}}>
-          <i class="fa-solid fa-truck-fast" style={{color:"#FFF"}}></i></div>
+            <div className="icon-box" style={{ backgroundColor: "#3250FF" }}>
+              <i className="fa-solid fa-truck-fast" style={{ color: "#FFF" }}></i></div>
           </div>
-          </div>
+        </div>
         <div className="crd"> <div className="crd-left">
-            <p>Deliverd</p>
-            <h2>1,202</h2>
-            <p className='progress'><span>10%</span><i class="fa-solid fa-caret-up" style={{color:"green"}}></i>+120today</p>
-          </div>
+          <p>Deliverd</p>
+          <h2>1,202</h2>
+          <p className='progress'><span>10%</span><i className="fa-solid fa-caret-up" style={{ color: "green" }}></i>+120today</p>
+        </div>
           <div className="crd-right">
-          <div className="icon-box" style={{backgroundColor:"#2BB2FE"}}>
-          <i class="fa-solid fa-cart-arrow-down" style={{color:"#FFF"}}></i></div>
+            <div className="icon-box" style={{ backgroundColor: "#2BB2FE" }}>
+              <i className="fa-solid fa-cart-arrow-down" style={{ color: "#FFF" }}></i></div>
           </div></div>
         <div className="crd"> <div className="crd-left">
-            <p>Cancled</p>
-            <h2>1,202</h2>
-            <p className='progress'><span>10%</span><i class="fa-solid fa-caret-up" style={{color:"green"}}></i>+120today</p>
-          </div>
+          <p>Cancled</p>
+          <h2>1,202</h2>
+          <p className='progress'><span>10%</span><i className="fa-solid fa-caret-up" style={{ color: "green" }}></i>+120today</p>
+        </div>
           <div className="crd-right">
-          <div className="icon-box"  style={{backgroundColor:"#EB3D4D"}}>
-          <i class="fa-solid fa-circle-xmark" style={{color:"#FFF"}}></i></div>
+            <div className="icon-box" style={{ backgroundColor: "#EB3D4D" }}>
+              <i className="fa-solid fa-circle-xmark" style={{ color: "#FFF" }}></i></div>
           </div></div>
       </div>
 
@@ -181,57 +183,48 @@ const Order = () => {
       <div className="main-bar">
         <div className="search-div2">
           <div className="two-option">
-          <div className="filter2">
-            <div className="custom-dropdown">
-              <button className="dropdown-btn" onClick={toggleDropdown}>
-                Filter
-                <i className="fa-solid fa-angle-down down" style={{ marginLeft: "80px" }}></i>
-              </button>
-              {isOpen && (
-                <div className="dropdown-menu" onMouseLeave={toggleDropdown}>
-                  <ul>
-                    {options.map((option) => (
-                      <li key={option.id}>
-                        <input
-                          type="checkbox"
-                          id={option.id}
-                          value={option.id}
-                          checked={selectedOptions.includes(option.id)}
-                          onChange={() => handleCheckboxChange(option.id)}
-                        />
-                        <label htmlFor={option.id}>{option.label}</label>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+            <div className="filter2">
+              <div className="custom-dropdown">
+                <button className="dropdown-btn" onClick={toggleDropdown}>
+                  Filter
+                  <i className="fa-solid fa-angle-down down" style={{ marginLeft: "80px" }}></i>
+                </button>
+                {isOpen && (
+                  <div className="dropdown-menu" onMouseLeave={toggleDropdown}>
+                    <ul>
+                    {categories.map((category ,index) => (
+                          <li key={index}>
+                            <input
+                              type="checkbox"
+                              id={category._id}
+                              value={category.name}
+                              checked={selectedOptions.includes(category.name)}
+                              onChange={() => handleCheckboxChange(category.name)}
+                            />
+                            <label htmlFor={category._id}>{category.name}</label>
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="search">
+
+              <div className='search-input'>
+                <i className="fa-solid fa-search" style={{ marginRight: "15px" }}></i>
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={handleSearch}
+                />
+              </div>
+
             </div>
           </div>
 
-          <div className="search">
-
-            <div className='search-input'>
-              <i className="fa-solid fa-search" style={{marginRight:"15px"}}></i>
-              <input
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={handleSearch}
-              />
-            </div>
-
-          </div>
-          </div>
-          <div className="edit-icon">
-              <button className="edit2">
-                <Link to='#' style={{ textDecoration: "none" }}>
-                  <i className="fa-solid fa-pen" style={{ color: "blue" }}></i>
-                </Link>
-              </button>
-              <button className="delete2" onClick={() => handleDelete()}>
-                <i className="fa-solid fa-trash" style={{fontSize:"18px"}}></i>
-              </button>
-            </div>
         </div>
 
         <div className="product-list">
@@ -239,7 +232,7 @@ const Order = () => {
             <table>
               <thead>
                 <tr>
-                  <th> <input type="checkbox" name="Product" id="product"  style={{marginRight:"15px"}}/>Product</th>
+                  <th>Product</th>
                   <th>Product Name</th>
                   <th>Date</th>
                   <th>Customer</th>
@@ -252,7 +245,7 @@ const Order = () => {
               <tbody>
                 {currentProducts.map((product, index) => (
                   <tr key={index}>
-                    <td style={{ justifyContent:"center"}}><input type="checkbox"  style={{marginRight:"15px"}}/>#234896</td>
+                    <td style={{ justifyContent: "center" }}>#23489F</td>
                     <td className="product-details">
                       <img src={product.ProductImage} alt={product.ProductName} />
                       <div>

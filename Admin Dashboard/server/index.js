@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import express from 'express';
 import cors from 'cors';
 
+
 const app = express();
 
 
@@ -27,10 +28,28 @@ const ProductSchema = new mongoose.Schema({
   StorageInstruction :String,
 });
 
+const CategorySchema = mongoose.Schema({
+name :  String,
+image : String,
+});
+
+const Category = mongoose.model('Category' , CategorySchema , 'category')
+
 const Product = mongoose.model('Product', ProductSchema, 'sweet');
 
+app.get('/cat', async (req , res)=>{
+  try {
+    const cat = await Category.find();
+    res.json(cat);
+  } catch (error) {
+    console.log(error);
+    
+  }
+})
 
-app.get('/category', async (req, res) => {
+
+
+app.get('/category2', async (req, res) => {
   try {
     const categories = await Product.aggregate([
       { $group: { _id: "$Category", count: { $sum: 1 } } },
@@ -41,6 +60,34 @@ app.get('/category', async (req, res) => {
     res.status(500).send(err.message);
   }
 });
+
+app.get('/category', async (req, res) => {
+  try {
+    const categories = await Category.aggregate([
+      {
+        $lookup: {
+          from: "products", // The collection name in MongoDB (must match the DB name)
+          localField: "name", // The field in Category model
+          foreignField: "Category", // The field in Product model
+          as: "products"
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          image: 1,
+          count: { $size: "$products" } // Count number of products in each category
+        }
+      }
+    ]);
+
+    res.json(categories);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 
 // Connect to MongoDB
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -80,6 +127,9 @@ app.get('/product/:id', async (req, res) => {
   }
 });
 
+
+
+
 // 2. Add a new product (CREATE)
 app.post('/product', async (req, res) => {
   try {
@@ -118,6 +168,9 @@ app.delete('/product/:id', async (req, res) => {
     res.status(400).json({ error: 'Failed to delete product', details: error.message });
   }
 });
+
+
+
 
 // Start the server
 const PORT = 5000;

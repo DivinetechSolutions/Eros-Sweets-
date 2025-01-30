@@ -22,17 +22,31 @@ const AddProduct = () => {
     StorageInstruction: '',
   });
 
+  const [files, setFiles] = useState([]); // Initialize as an array
+  const [previews, setPreviews] = useState([]);
 
+  // Rendering previews
+  useEffect(() => {
+    if (!files.length) return;
 
-  const [image, setImage] = useState(null); // For image file
+    let tmp = files.map((file) => URL.createObjectURL(file));
+    setPreviews(tmp);
+
+    // Cleanup memory
+    return () => {
+      tmp.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [files]);
+
+  // const [image, setImage] = useState(null); // For image file
   // const [editId, setEditId] = useState(null); 
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImage(file);
-    }
-  };
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setImage(file);
+  //   }
+  // };
   const [editId, setEditId] = useState(null); // To track if updating a product
 
   // Fetch products on component mount
@@ -101,7 +115,7 @@ const AddProduct = () => {
 
 
       <div className="form-top">
-        <button className="back-btn" onClick={() => navigate(-1)}><i class="fa-solid fa-chevron-left"></i></button>
+        <button className="back-btn" onClick={() => navigate(-1)}><i className="fa-solid fa-chevron-left"></i></button>
         <p>Add Product</p>
       </div>
       <div className="form-section">
@@ -134,8 +148,19 @@ const AddProduct = () => {
 
             <h3 style={{ marginTop: '10px' }}>images</h3>
             <div className="img-box">
-              <input type="file" id="file"
+              {/* <input type="file" id="file"
                 onChange={handleImageChange}
+              /> */}
+              <input
+                type="file"
+                id="file"
+                accept="image/jpg, image/jpeg, image/png"
+                multiple
+                onChange={(e) => {
+                  if (e.target.files && e.target.files.length > 0) {
+                    setFiles((prevFiles) => [...prevFiles, ...Array.from(e.target.files)]);
+                  }
+                }}
               />
 
               <label htmlFor="file"
@@ -146,6 +171,19 @@ const AddProduct = () => {
               >Add File</label>
               <span>Or drag and drop files</span>
             </div>
+            {previews.map((pic, index) => (
+        <div
+          key={index}
+          style={{
+            width: "120px",
+            height: "120px",
+            display: "flex",
+          }}
+        >
+
+          <div style={{ display:"flex"}}><img src={pic} alt="Preview" style={{ height: "50px" }} /></div>
+        </div>
+      ))}
           </div>
 
           <div className="price-box">
@@ -246,7 +284,7 @@ const AddProduct = () => {
                 placeholder="Enter Instruction"
               />
 
-              <label for="state">Satate</label>
+              <label htmlFor="state">Satate</label>
               <div className="option">
 
                 <select id="state"
