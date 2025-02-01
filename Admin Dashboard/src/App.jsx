@@ -12,6 +12,8 @@ import EditForm from './RoutePages/EditForm'
 import { ToastContainer  } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React from "react";
+import OrderDetail from './RoutePages/OrderDetail'
+
 function App() {
 
 
@@ -28,6 +30,8 @@ function App() {
            <Route path='/add-product' element={<AddProduct/>}/>
            <Route path='/edit/:_id' element={<EditForm/>}/>
            <Route path='/setting-product' element={<SettingProduct/>}/>
+           <Route path='/order-detail' element={<OrderDetail/>}/>
+
       </Route>
 
     </Routes>

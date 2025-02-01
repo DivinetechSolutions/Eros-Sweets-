@@ -51,7 +51,7 @@ const MainSection = () => {
                 <div className="card-container" style={{justifyContent:"start" }}>
 
                 <Link to='setting-product'>
-                   <div className="box" style={{marginLeft:"7.4rem"}}>
+                   <div className="box" style={{marginLeft:"9.9rem"}}>
                         <div className="top">
                             <button style={{ backgroundColor: "#FF9797" }}><i className="fa-regular fa-user" id='font'></i></button>
                         </div>

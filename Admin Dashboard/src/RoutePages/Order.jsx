@@ -124,6 +124,9 @@ const Order = () => {
     setSelectedProduct(null);
   }
 
+ const showDetails = () =>{
+  navigate('/order-detail')
+ }
 
   return (
     <div className='main-box'>
@@ -245,8 +248,8 @@ const Order = () => {
               <tbody>
                 {currentProducts.map((product, index) => (
                   <tr key={index}>
-                    <td style={{ justifyContent: "center" }}>#23489F</td>
-                    <td className="product-details">
+                    <td style={{ justifyContent: "center" }} className='order-id' onClick={showDetails}>#23489F</td>
+                    <td className="product-details" onClick={showDetails}>
                       <img src={product.ProductImage} alt={product.ProductName} />
                       <div>
                         <div className="product-name">{product.ProductName}</div>
