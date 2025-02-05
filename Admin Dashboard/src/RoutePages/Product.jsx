@@ -24,7 +24,7 @@ const Product = () => {
     ShelfLife: '',
     Category: '',
     StateOrigin: '',
-    ProductImage: '',
+    ProductImage: [],
   });
 
 
@@ -91,16 +91,16 @@ const Product = () => {
 
   const filteredProducts = product2.filter(product => {
     const productName = product?.ProductName?.toLowerCase() || "";
-    const productCategory = product?.Category?.toLowerCase() || ""; 
+    const productCategory = product?.Category?.toLowerCase() || "";
     const searchValue = searchQuery?.toLowerCase() || "";
 
     const matchesSearch = productName.includes(searchValue.toString());
 
-    const matchesCategory = 
+    const matchesCategory =
       selectedOptions.length === 0 || selectedOptions.includes(product.Category.toString());
 
     return matchesSearch && matchesCategory;
-});
+  });
 
 
   const indexOfLastProduct = currentPage * itemsPerPage;
@@ -112,15 +112,13 @@ const Product = () => {
     setSearchQuery(e.target.value);
     setCurrentPage(1);
   };
+  
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
   const handleDelete = async (id) => {
-
-
-
     try {
       await axios.delete(`http://localhost:5000/product/${id}`);
       toast.success('Product deleted successfully!');
@@ -193,7 +191,7 @@ const Product = () => {
                   {isOpen && (
                     <div className="dropdown-menu" onMouseLeave={toggleDropdown}>
                       <ul>
-                        {categories.map((category ,index) => (
+                        {categories.map((category, index) => (
                           <li key={index}>
                             <input
                               type="checkbox"
@@ -240,13 +238,18 @@ const Product = () => {
                   </thead>
                   <tbody>
                     {currentProducts.map((product, index) => (
-                      <tr key={index}>
-                        <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
-                        <td className="product-details">
-                          <img src={product.ProductImage} alt={product.ProductName} />
+                      <tr key={index} >
+                        <td onClick={()=>navigate(`/product-description/${product._id}`)}>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
+                        <td className="product-details" onClick={()=>navigate(`/product-description/${product._id}`)} >
+                          {/* <img src={product.ProductImage} alt={product.ProductName} /> */}
+                          <img
+                            src={product.ProductImage[0]?.startsWith('http') ? product.ProductImage : `http://localhost:5000${product.ProductImage || ''}`}
+                            alt={product.ProductName}
+                            className="product-image"
+                          />
                           <div>
-                            <div className="product-name">{product.ProductName}</div>
-                            <div className="product-category">{product.Category}</div>
+                            <div className="product-name" onClick={()=>navigate(`/product-description/${product._id}`)}>{product.ProductName}</div>
+                            <div className="product-category" onClick={()=>navigate(`/product-description/${product._id}`)}>{product.Category}</div>
                           </div>
                         </td>
                         <td>{product.Price}</td>

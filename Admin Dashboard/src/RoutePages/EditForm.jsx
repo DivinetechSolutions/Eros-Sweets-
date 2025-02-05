@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import './EditForm.css'
 import { useParams , useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 
 const EditForm = () => {
@@ -47,12 +48,26 @@ const EditForm = () => {
     axios
       .put(`http://localhost:5000/product/${_id}`, data) // Update product in the database
       .then(() => {
-        alert('Product updated successfully!');
+        toast.success('Product updated successfully!');
         navigate('/product'); // Redirect to the product list or another page
       })
       .catch((err) => console.log(err));
   };
+  const [categories, setCategories] = useState([]);
 
+  useEffect(() => {
+    // fetchProducts();
+    fetchCategories(); // Fetch categories when the component loads
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/category'); // Adjust the API endpoint as per your backend
+      setCategories(response.data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  }
   
   return (
 
@@ -146,14 +161,24 @@ const EditForm = () => {
                   value={data.Category}
                   onChange={handleChange}
                 >
-                  <option value="Sweet">Sweet</option>
+                   {categories.map((category ,index) => (
+                         
+                         <option
+                           type="checkbox"
+                           id={category._id}
+                         >
+                           {category.name}
+                         </option>
+                    
+                     ))}
+                  {/* <option value="Sweet">Sweet</option>
                   <option value="Namkeen">Namkeen</option>
                   <option value="Sweet_Hampers">Sweet Hampers</option>
                   <option value="Sugar_Free">Sugar Free</option>
                   <option value="Namken_Hampers">Namkeen Hampers</option>
                   <option value="Corporate_Collection">Corporate Collection</option>
                   <option value="Wedding_Collection">Wedding Collection</option>
-                  <option value="Combos">Combos</option>
+                  <option value="Combos">Combos</option> */}
                 </select>
 
               </div>

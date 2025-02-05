@@ -13,6 +13,7 @@ import { ToastContainer  } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 import OrderDetail from './RoutePages/OrderDetail'
+import ProductDescription from './RoutePages/ProductDescription'
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
            <Route path='/edit/:_id' element={<EditForm/>}/>
            <Route path='/setting-product' element={<SettingProduct/>}/>
            <Route path='/order-detail' element={<OrderDetail/>}/>
+           <Route path='/product-description/:_id' element={<ProductDescription/>}/>
 
       </Route>
 

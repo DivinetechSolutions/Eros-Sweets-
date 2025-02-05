@@ -12,7 +12,8 @@ const Category = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [categoryName, setCategoryName] = useState(""); // State for category name
   const [files, setFiles] = useState([]); // State for selected images
-  const [previews, setPreviews] = useState([]); // State for image previews
+  const [previews, setPreviews] = useState([]);
+  const [image, setImage] = useState(null); // State for image previews
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -45,20 +46,20 @@ const Category = () => {
 
   const [catImage, setCatImage] = useState([]);
 
-  useEffect(() => {
-    const CategoryImage = async () => {
-      try {
-        const CatImg = await fetch('http://localhost:5000/cat');
-        const img = await CatImg.json();
-        setCatImage(img)
-      }
-      catch (error) {
-        console.log(error);
+  // useEffect(() => {
+  //   const CategoryImage = async () => {
+  //     try {
+  //       const CatImg = await fetch('http://localhost:5000/cat');
+  //       const img = await CatImg.json();
+  //       setCatImage(img)
+  //     }
+  //     catch (error) {
+  //       console.log(error);
 
-      }
-    }
-    CategoryImage();
-  }, [])
+  //     }
+  //   }
+  //   CategoryImage();
+  // }, [])
 
   useEffect(() => {
     fetchData();
@@ -70,6 +71,13 @@ const Category = () => {
   };
 
   const navigate = useNavigate();
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+    }
+  };
 
   // Generate previews for selected images
   useEffect(() => {
@@ -92,14 +100,68 @@ const Category = () => {
     document.getElementById("file").value = ""; // Reset file input
   };
 
+  // const handleSave = async () => {
+  //   if (!categoryName || files.length === 0) {
+  //     alert("Please enter a category name and select an image.");
+  //     return;
+  //   }
+  //   const formData = new FormData();
+  //   formData.append("name", categoryName);
+  //   files.forEach((file) => formData.append("image", file));
+
+  //   try {
+  //     const response = await axios.post("http://localhost:5000/category", formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+
+  //     if (response.status === 201) {
+  //       alert("Category added successfully!");
+  //       setIsModalOpen(false);
+  //       clearForm();
+  //       // Refresh categories
+  //     }
+  //   } catch (error) {
+  //     console.error("Error adding category:", error);
+  //     alert("Failed to add category.");
+  //   }
+  // };
+
+  // const handleSave = async () => {
+  //   if (!categoryName.trim()) {
+  //     alert("Please enter a category name.");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await axios.post("http://localhost:5000/category", { name: categoryName.trim() });
+
+  //     if (response.status === 201) {
+  //       alert("Category added successfully!");
+  //       setIsModalOpen(false);
+  //       clearForm();
+  //       setCategories((prev) => [...prev, { name: categoryName }]); // Update state with new category
+  //     }
+  //   } catch (error) {
+  //     console.error("Error adding category:", error);
+  //     alert("Failed to add category.");
+  //   }
+  // };
+
+
+
   const handleSave = async () => {
-    if (!categoryName || files.length === 0) {
+    if (!categoryName.trim() || !image) {
       alert("Please enter a category name and select an image.");
       return;
     }
+
     const formData = new FormData();
-    formData.append("name", categoryName);
-    files.forEach((file) => formData.append("image", file));
+    formData.append("name", categoryName.trim());
+    if (image) {
+      formData.append('image', image);
+    }
 
     try {
       const response = await axios.post("http://localhost:5000/category", formData, {
@@ -112,7 +174,8 @@ const Category = () => {
         alert("Category added successfully!");
         setIsModalOpen(false);
         clearForm();
-        // Refresh categories
+        setCategories((prev) => [...prev, response.data]); // Update UI with new category
+        fetchCategories();
       }
     } catch (error) {
       console.error("Error adding category:", error);
@@ -141,12 +204,17 @@ const Category = () => {
           {categories.map((e, index) => (
             <div className="category-card" key={index}>
               <div className="card-image">
-                <img src={e.image} alt="Category" />
-              
+                {/* <img src={e.image} alt="Category" /> */}
+
+                <img
+                  src={e.image?.startsWith('http') ? e.image : `http://localhost:5000${e.image || ''}`}
+                  alt={e.name}
+                />
+
               </div>
               <div className="name-size">
                 <h4 className='ans-card'>{e.name || "Uncategorized"}</h4>
-            
+
 
                 {
                   (() => {
@@ -185,7 +253,7 @@ const Category = () => {
               <div className="file-box">
                 <h3 style={{ marginTop: '10px' }}>Images</h3>
                 <div className="img-box">
-                  <input
+                  {/* <input
                     type="file"
                     id="file"
                     accept="image/jpg, image/jpeg, image/png"
@@ -195,17 +263,24 @@ const Category = () => {
                         setFiles((prevFiles) => [...prevFiles, ...Array.from(e.target.files)]);
                       }
                     }}
+                  /> */}
+
+                  <input
+                    type="file"
+                    id="file"
+                    accept="image/png, image/jpeg, image/jpg"
+                    onChange={handleImageChange}
                   />
                   <label htmlFor="file">Add File</label>
                   <span>Or drag and drop files</span>
                 </div>
-                {previews.map((pic, index) => (
+                {/* {previews.map((pic, index) => (
                   <div key={index} style={{ width: "120px", height: "120px", display: "flex" }}>
                     <div style={{ display: "flex" }}>
                       <img src={pic} alt="Preview" style={{ height: "50px" }} />
                     </div>
                   </div>
-                ))}
+                ))} */}
               </div>
             </form>
 

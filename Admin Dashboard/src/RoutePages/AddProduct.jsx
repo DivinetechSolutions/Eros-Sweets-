@@ -25,6 +25,10 @@ const AddProduct = () => {
   const [files, setFiles] = useState([]); // Initialize as an array
   const [previews, setPreviews] = useState([]);
 
+  const [image, setImage] = useState(null); // For image file
+  // const [editId, setEditId] = useState(null); // To track if updating a product
+
+
   // Rendering previews
   useEffect(() => {
     if (!files.length) return;
@@ -38,16 +42,25 @@ const AddProduct = () => {
     };
   }, [files]);
 
-  // const [image, setImage] = useState(null); // For image file
-  // const [editId, setEditId] = useState(null); 
-
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     setImage(file);
-  //   }
-  // };
   const [editId, setEditId] = useState(null); // To track if updating a product
+
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetchProducts();
+    fetchCategories(); // Fetch categories when the component loads
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/category'); // Adjust the API endpoint as per your backend
+      setCategories(response.data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
+
 
   // Fetch products on component mount
   useEffect(() => {
@@ -68,6 +81,12 @@ const AddProduct = () => {
     // resetForm()
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+    }
+  };
   const resetForm = () => {
 
 
@@ -87,28 +106,64 @@ const AddProduct = () => {
     setEditId(null); // Reset edit state
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     if (editId) {
+  //       // Update product
+  //       await axios.put(`http://localhost:5000/product/${editId}`, formData);
+  //       alert('Product updated successfully!');
+  //     } else {
+  //       // Create product
+  //       await axios.post('http://localhost:5000/product', formData);
+  //       toast.success('Product created successfully!');
+  //     }
+
+  //     resetForm();
+  //     fetchProducts();
+  //   } catch (error) {
+  //     console.error('Error saving product:', error);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formDataToSend = new FormData();
+    formDataToSend.append('ProductName', formData.ProductName);
+    formDataToSend.append('ProductDescription', formData.ProductDescription);
+    formDataToSend.append('ProductIngredients', formData.ProductIngredients);
+    formDataToSend.append('ProductWeight', formData.ProductWeight);
+    formDataToSend.append('Price', formData.Price);
+    formDataToSend.append('ShelfLife', formData.ShelfLife);
+    formDataToSend.append('Category', formData.Category);
+    formDataToSend.append('StateOrigin', formData.StateOrigin);
+    if (image) {
+      formDataToSend.append('ProductImage', image);
+    }
 
     try {
       if (editId) {
         // Update product
-        await axios.put(`http://localhost:5000/product/${editId}`, formData);
-        alert('Product updated successfully!');
+        await axios.put(`http://localhost:5000/product/${editId}`, formDataToSend);
+        toast.success('Product updated successfully!');
       } else {
         // Create product
-        await axios.post('http://localhost:5000/product', formData);
+        await axios.post('http://localhost:5000/product', formDataToSend);
         toast.success('Product created successfully!');
       }
-
       resetForm();
-      fetchProducts();
+      fetchProducts(); // Refresh the product list
     } catch (error) {
       console.error('Error saving product:', error);
     }
   };
-
   const navigate = useNavigate();
+
+
+
+  
   return (
 
     <div className="form-container">
@@ -151,7 +206,7 @@ const AddProduct = () => {
               {/* <input type="file" id="file"
                 onChange={handleImageChange}
               /> */}
-              <input
+              {/* <input
                 type="file"
                 id="file"
                 accept="image/jpg, image/jpeg, image/png"
@@ -161,13 +216,18 @@ const AddProduct = () => {
                     setFiles((prevFiles) => [...prevFiles, ...Array.from(e.target.files)]);
                   }
                 }}
-              />
+              /> */}
+
+         <input
+          type="file"
+          id="file"
+          onChange={handleImageChange}
+          placeholder="Upload Image"
+        />
+
 
               <label htmlFor="file"
-                value={formData.ProductIngredients}
-                onChange={handleInputChange}
-                placeholder="Ingredients"
-
+                
               >Add File</label>
               <span>Or drag and drop files</span>
             </div>
@@ -217,21 +277,32 @@ const AddProduct = () => {
             <h3>Categories</h3>
             <div className="check-div">
               <div className="option">
-
+        
                 <select
                   id="categories"
                   name="Category"
                   value={formData.Category}
                   onChange={handleInputChange} // Use onChange instead of onSelect
                 >
-                  <option value="Sweet">Sweet</option>
+                     {categories.map((category ,index) => (
+                         
+                            <option
+                              type="checkbox"
+                              id={category._id}
+                            >
+                              {category.name}
+                            </option>
+                       
+                        ))}
+
+                  {/* <option value="Sweet">Sweet</option>
                   <option value="Namkeen">Namkeen</option>
                   <option value="Sweet_Hampers">Sweet Hampers</option>
                   <option value="Sugar_Free">Sugar Free</option>
                   <option value="namkeen_hampers">Namkeen Hampers</option>
                   <option value="Corporate_Collection">Corporate Collection</option>
                   <option value="Wedding_Collection">Wedding Collection</option>
-                  <option value="Combos">Combos</option>
+                  <option value="Combos">Combos</option> */}
                 </select>
 
               </div>

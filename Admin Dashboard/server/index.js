@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
 import express from 'express';
 import cors from 'cors';
+import multer from 'multer';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 
 const app = express();
@@ -9,6 +12,82 @@ const app = express();
 // Middleware setup
 app.use(cors());
 app.use(express.json());
+
+
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, 'uploads'));  
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+const upload = multer({ storage });
+
+// // Serve the `uploads` folder statically
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
+//category Image upload
+app.post('/category', upload.single('image'), async (req, res) => {
+  try {
+    const productData = {
+      ...req.body,
+      image: req.file ? `/uploads/${req.file.filename}` : '',
+    };
+    const CategoryData = new Category(productData); // Create a new product from request body
+    await CategoryData.save(); // Save the product to the database
+    res.status(201).json(CategoryData); // Respond with the created product
+  } catch (error) {
+    res.status(400).json({ error: 'Failed to create product', details: error.message });
+  }
+});
+
+
+
+
+
+app.post('/product', upload.single('ProductImage'), async (req, res) => {
+  try {
+    const productData = {
+      ...req.body,
+      ProductImage: req.file ? `/uploads/${req.file.filename}` : '',
+    };
+    const product = new Product(productData); // Create a new product from request body
+    await product.save(); // Save the product to the database
+    res.status(201).json(product); // Respond with the created product
+  } catch (error) {
+    res.status(400).json({ error: 'Failed to create product', details: error.message });
+  }
+});
+
+// 3. Update an existing product by ID (UPDATE)
+app.put('/product/:id', upload.single('ProductImage'), async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    //Check if an image is being uploaded
+    if (req.file) {
+      req.body.ProductImage = `/uploads/${req.file.filename}`;
+    }
+
+    const updatedProduct = await Product.findByIdAndUpdate(id, req.body, { new: true });
+    if (!updatedProduct) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    res.json(updatedProduct);
+  } catch (error) {
+    res.status(400).json({ error: 'Failed to update product', details: error.message });
+  }
+});
+
+
 
 // MongoDB connection string
 const uri = "mongodb+srv://Nidhi:Nidhi16@sweetnamkeen.3md1r.mongodb.net/SweetNamkeen?retryWrites=true&w=majority&appName=SweetNamkeen";
@@ -21,14 +100,14 @@ const ProductSchema = new mongoose.Schema({
   ProductWeight: String,
   Price: String,
   ShelfLife: String,
-  ProductImage: String,
+  ProductImage: Array,
   Category: String,
   StateOrigin: String,
   ProductNutritions :String,
   StorageInstruction :String,
 });
 
-const CategorySchema = mongoose.Schema({
+const CategorySchema = new  mongoose.Schema({
 name :  String,
 image : String,
 });
@@ -66,9 +145,9 @@ app.get('/category', async (req, res) => {
     const categories = await Category.aggregate([
       {
         $lookup: {
-          from: "products", // The collection name in MongoDB (must match the DB name)
-          localField: "name", // The field in Category model
-          foreignField: "Category", // The field in Product model
+          from: "products", 
+          localField: "name", 
+          foreignField: "Category", 
           as: "products"
         }
       },
@@ -77,7 +156,6 @@ app.get('/category', async (req, res) => {
           _id: 1,
           name: 1,
           image: 1,
-          count: { $size: "$products" } // Count number of products in each category
         }
       }
     ]);
@@ -110,6 +188,26 @@ app.get('/product', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch products' });
   }
 });
+
+app.post('/category', async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name) {
+      return res.status(400).json({ message: "Category name is required" });
+    }
+
+    const newCategory = new Category({ name }); // Ensure your database model matches
+    await newCategory.save();
+
+    res.status(201).json(newCategory);
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+//Get product data By Id
 
 app.get('/product/:id', async (req, res) => {
   try {
