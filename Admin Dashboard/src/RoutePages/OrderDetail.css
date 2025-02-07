@@ -78,7 +78,7 @@
 {
     width: 100%;
     background-color: white;
-    height: 67%;
+    /* height: 67%; */
     margin-bottom: 5px;
     border-radius: 7px;
 }
@@ -183,7 +183,7 @@
 
 .total-amout-box
 {
-    height: 100%;
+    height: inherit;
     width: 100%;
     display: flex;
     justify-content: end;

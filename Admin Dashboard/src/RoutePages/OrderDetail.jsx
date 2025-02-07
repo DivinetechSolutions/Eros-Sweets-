@@ -1,10 +1,28 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './OrderDetail.css';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const OrderDetail = () => {
 
   const navigate = useNavigate()
+
+  const printRef = useRef();
+
+  const handleExport = () => {
+    const input = printRef.current;
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save("order-details.pdf");
+    });
+  };
 
   return (
     <div className='order-detail-container'>
@@ -13,10 +31,10 @@ const OrderDetail = () => {
           <i className="fa-solid fa-chevron-left"></i>
         </button>
         <p>Order #23489F</p>
-        <button className="order-detail-exportBtn"> Export</button>
+        <button className="order-detail-exportBtn" onClick={handleExport}> Export</button>
       </div>
 
-      <div className="order-description-box">
+      <div className="order-description-box" ref={printRef}>
         <div className="order-description-box-left">
           <div className="top-left-description-box">
             <div className="top-bar-box">

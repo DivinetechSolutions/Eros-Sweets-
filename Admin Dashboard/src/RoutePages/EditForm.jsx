@@ -18,7 +18,7 @@ const EditForm = () => {
       ShelfLife: '',
       Category: '',
       StateOrigin: '',
-      ProductImage: '',
+      ProductImage: [],
       ProductNutritions: '',
       StorageInstruction: '',
     }
@@ -37,6 +37,8 @@ const EditForm = () => {
   const handleChange = (e) => {
     const { name, value } = e.target.value;
     setData((prevData) => ({ ...prevData, [e.target.name]: e.target.value }));
+
+    
   };
   
 
@@ -76,7 +78,7 @@ const EditForm = () => {
 
       <div className="form-top">
         <button className="back-btn" onClick={() => navigate(-1)}><i className="fa-solid fa-chevron-left"></i></button>
-        <p>Add Product</p>
+        <p>Edit Product</p>
         
       </div>
       <div className="form-section">
@@ -112,16 +114,16 @@ const EditForm = () => {
               <input type="file" id="file"
                 // onChange={handleImageChange}
               />
+           
 
-              <label htmlFor="file"
-                // value={data.ProductIngredients} 
-                
-                placeholder="Ingredients"
-
-              >Add File</label>
+              <label htmlFor="file" placeholder="Ingredients">Add File </label>
               <span>Or drag and drop files</span>
             </div>
+              {/* <img src={data.ProductImage[0]} alt="" style={{height:"140px", width:"220px"}} /> */}
+              <img style={{height:"140px", width:"220px"}}  src={data.ProductImage[0]?.startsWith('http') ? data.ProductImage[0] : `http://localhost:5000${data.ProductImage || ''}`}
+            alt={data.ProductName} className="product-image"/>
           </div>
+
 
           <div className="price-box">
             <h3>Price and Quality information</h3>
@@ -164,6 +166,7 @@ const EditForm = () => {
                    {categories.map((category ,index) => (
                          
                          <option
+                           key={index}
                            type="checkbox"
                            id={category._id}
                          >
@@ -171,16 +174,8 @@ const EditForm = () => {
                          </option>
                     
                      ))}
-                  {/* <option value="Sweet">Sweet</option>
-                  <option value="Namkeen">Namkeen</option>
-                  <option value="Sweet_Hampers">Sweet Hampers</option>
-                  <option value="Sugar_Free">Sugar Free</option>
-                  <option value="Namken_Hampers">Namkeen Hampers</option>
-                  <option value="Corporate_Collection">Corporate Collection</option>
-                  <option value="Wedding_Collection">Wedding Collection</option>
-                  <option value="Combos">Combos</option> */}
+              
                 </select>
-
               </div>
 
               <div className="shelfLife-div">
@@ -196,7 +191,6 @@ const EditForm = () => {
                 </div>
               </div>
             </div>
-
 
           </div>
           <div className="down">

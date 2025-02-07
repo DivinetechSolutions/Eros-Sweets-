@@ -45,22 +45,6 @@ const Category = () => {
   }, []);
 
   const [catImage, setCatImage] = useState([]);
-
-  // useEffect(() => {
-  //   const CategoryImage = async () => {
-  //     try {
-  //       const CatImg = await fetch('http://localhost:5000/cat');
-  //       const img = await CatImg.json();
-  //       setCatImage(img)
-  //     }
-  //     catch (error) {
-  //       console.log(error);
-
-  //     }
-  //   }
-  //   CategoryImage();
-  // }, [])
-
   useEffect(() => {
     fetchData();
   });
@@ -202,7 +186,8 @@ const Category = () => {
 
         <div className="product-card-container">
           {categories.map((e, index) => (
-            <div className="category-card" key={index}>
+            <div className="category-card" key={index} onClick={() => navigate(`/category-product/${(e.name)}`)}
+>
               <div className="card-image">
                 {/* <img src={e.image} alt="Category" /> */}
 
@@ -218,7 +203,9 @@ const Category = () => {
 
                 {
                   (() => {
-                    const matchedCategory = data2.find((c) => e.name === c._id);
+                    // const matchedCategory = data2.find((c) => c._id === e.name);
+                    const matchedCategory = data2.find((c) => c._id.trim().toLowerCase() === e.name.trim().toLowerCase());
+
                     return matchedCategory ? (
                       <p className='ans-card'>{matchedCategory.count} items</p>
                     ) : (
@@ -253,17 +240,7 @@ const Category = () => {
               <div className="file-box">
                 <h3 style={{ marginTop: '10px' }}>Images</h3>
                 <div className="img-box">
-                  {/* <input
-                    type="file"
-                    id="file"
-                    accept="image/jpg, image/jpeg, image/png"
-                    multiple
-                    onChange={(e) => {
-                      if (e.target.files && e.target.files.length > 0) {
-                        setFiles((prevFiles) => [...prevFiles, ...Array.from(e.target.files)]);
-                      }
-                    }}
-                  /> */}
+               
 
                   <input
                     type="file"

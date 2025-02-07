@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 import OrderDetail from './RoutePages/OrderDetail'
 import ProductDescription from './RoutePages/ProductDescription'
+import CategoryProduct from './RoutePages/CategoryProduct'
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
            <Route path='/setting-product' element={<SettingProduct/>}/>
            <Route path='/order-detail' element={<OrderDetail/>}/>
            <Route path='/product-description/:_id' element={<ProductDescription/>}/>
+           <Route path='/category-product/:name' element={<CategoryProduct/>}/>
 
       </Route>
 

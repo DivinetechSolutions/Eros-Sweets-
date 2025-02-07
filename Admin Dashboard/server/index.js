@@ -21,7 +21,7 @@ const __dirname = path.dirname(__filename);
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, 'uploads'));  
+    cb(null, path.join(__dirname, 'uploads'));
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);
@@ -103,28 +103,29 @@ const ProductSchema = new mongoose.Schema({
   ProductImage: Array,
   Category: String,
   StateOrigin: String,
-  ProductNutritions :String,
-  StorageInstruction :String,
+  ProductNutritions: String,
+  StorageInstruction: String,
 });
 
-const CategorySchema = new  mongoose.Schema({
-name :  String,
-image : String,
+const CategorySchema = new mongoose.Schema({
+  name: String,
+  image: String,
 });
 
-const Category = mongoose.model('Category' , CategorySchema , 'category')
+const Category = mongoose.model('Category', CategorySchema, 'category')
 
 const Product = mongoose.model('Product', ProductSchema, 'sweet');
 
-app.get('/cat', async (req , res)=>{
+app.get('/cat', async (req, res) => {
   try {
     const cat = await Category.find();
     res.json(cat);
   } catch (error) {
     console.log(error);
-    
+
   }
 })
+
 
 
 
@@ -145,9 +146,9 @@ app.get('/category', async (req, res) => {
     const categories = await Category.aggregate([
       {
         $lookup: {
-          from: "products", 
-          localField: "name", 
-          foreignField: "Category", 
+          from: "products",
+          localField: "name",
+          foreignField: "Category",
           as: "products"
         }
       },
@@ -175,7 +176,7 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .catch((error) => {
     console.error('Error connecting to MongoDB:', error);
   });
-  
+
 
 // API endpoints
 
@@ -221,6 +222,24 @@ app.get('/product/:id', async (req, res) => {
     res.status(200).json(product); // Send the specific product as a response
   } catch (error) {
     console.error('Error fetching product:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+////get category wise items
+app.get('/product/category/:categoryName', async (req, res) => {
+  try {
+    const { categoryName } = req.params; // Extract category name from URL
+    const products = await Product.find({ Category: categoryName }); // Fetch products by category name
+
+    if (!products.length) {
+      return res.status(404).json({ message: 'No products found in this category' });
+    }
+
+    res.status(200).json(products);
+  } catch (error) {
+    console.error('Error fetching products by category:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });

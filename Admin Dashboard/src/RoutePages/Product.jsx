@@ -28,16 +28,7 @@ const Product = () => {
   });
 
 
-  // const options = [
-  //   { id: "sweet", label: "Sweet" },
-  //   { id: "namkeen", label: "Namkeen" },
-  //   { id: "sugar_free", label: "Sugar Free" },
-  //   { id: "sweet_hampers", label: "Sweet Hampers" },
-  //   { id: "namkeen_hamper", label: "Namkeen Hampers" },
-  //   { id: "corporate_collection", label: "Corporate Collection" },
-  //   { id: "wedding_collection", label: "Wedding Collection" },
-  //   { id: "combos", label: "Combos" },
-  // ];
+
 
   const [categories, setCategories] = useState([]);
 
@@ -89,18 +80,36 @@ const Product = () => {
   //   return matchesSearch && matchesCategory;
   // });
 
+  // const filteredProducts = product2.filter(product => {
+  //   const productName = product?.ProductName?.toLowerCase() || "";
+  //   const productCategory = product?.Category?.toLowerCase() || "";
+  //   const searchValue = searchQuery?.toLowerCase() || "";
+
+  //   const matchesSearch = productName.includes(searchValue.toString());
+
+  //   const matchesCategory =
+  //     selectedOptions.length === 0 || selectedOptions.includes(product.Category.toString());
+
+  //   return matchesSearch && matchesCategory;
+  // });
+
+
   const filteredProducts = product2.filter(product => {
     const productName = product?.ProductName?.toLowerCase() || "";
-    const productCategory = product?.Category?.toLowerCase() || "";
-    const searchValue = searchQuery?.toLowerCase() || "";
-
-    const matchesSearch = productName.includes(searchValue.toString());
-
-    const matchesCategory =
-      selectedOptions.length === 0 || selectedOptions.includes(product.Category.toString());
-
+    const productCategory = product?.Category?.toLowerCase().trim() || "";
+    const searchValue = searchQuery?.toLowerCase().trim() || "";
+  
+   
+    const matchesSearch = productName.includes(searchValue);
+    const matchesCategory = 
+      selectedOptions.length === 0 || 
+      selectedOptions.some(option => option.toLowerCase().trim() === productCategory);
+  
     return matchesSearch && matchesCategory;
   });
+  
+  
+
 
 
   const indexOfLastProduct = currentPage * itemsPerPage;
@@ -243,7 +252,7 @@ const Product = () => {
                         <td className="product-details" onClick={()=>navigate(`/product-description/${product._id}`)} >
                           {/* <img src={product.ProductImage} alt={product.ProductName} /> */}
                           <img
-                            src={product.ProductImage[0]?.startsWith('http') ? product.ProductImage : `http://localhost:5000${product.ProductImage || ''}`}
+                            src={product.ProductImage[0]?.startsWith('http') ? product.ProductImage[0] : `http://localhost:5000${product.ProductImage || ''}`}
                             alt={product.ProductName}
                             className="product-image"
                           />

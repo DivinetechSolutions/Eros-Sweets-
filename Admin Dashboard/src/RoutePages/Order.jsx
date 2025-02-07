@@ -67,17 +67,18 @@ const Order = () => {
 
   const filteredProducts = product2.filter(product => {
     const productName = product?.ProductName?.toLowerCase() || "";
-    const productCategory = product?.Category?.toLowerCase() || ""; // Ensure it's a string
-    const searchValue = searchQuery?.toLowerCase() || "";
-
-    const matchesSearch = productName.includes(searchValue.toString());
-
+    const productCategory = product?.Category?.toLowerCase().trim() || "";
+    const searchValue = searchQuery?.toLowerCase().trim() || "";
+  
+   
+    const matchesSearch = productName.includes(searchValue);
     const matchesCategory = 
-      selectedOptions.length === 0 || selectedOptions.includes(product.Category.toString());
-
+      selectedOptions.length === 0 || 
+      selectedOptions.some(option => option.toLowerCase().trim() === productCategory);
+  
     return matchesSearch && matchesCategory;
-});
-
+  });
+  
   const indexOfLastProduct = currentPage * itemsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -250,7 +251,8 @@ const Order = () => {
                   <tr key={index}>
                     <td style={{ justifyContent: "center" }} className='order-id' onClick={showDetails}>#23489F</td>
                     <td className="product-details" onClick={showDetails}>
-                      <img src={product.ProductImage} alt={product.ProductName} />
+                      {/* <img src={product.ProductImage} alt={product.ProductName} /> */}
+                      <img src={product.ProductImage[0]?.startsWith('http') ? product.ProductImage[0] : `http://localhost:5000${product.ProductImage || ''}`} alt="" />
                       <div>
                         <div className="product-name">{product.ProductName}</div>
                         <div className="product-category">{product.Category}</div>
