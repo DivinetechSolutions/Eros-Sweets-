@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./Navbar.css";
 import MainSection from "./MainSection";
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [data, setData] = useState(5);
+  const navigate = useNavigate()
 
   const ShowUser = ()=>{
     let profile =  document.querySelector(".id-box");
@@ -17,7 +18,8 @@ const Navbar = () => {
     <>
     <nav className="navbar">
       <div className="navbar-logo">
-       <img src="./public/images/logo.png"  />
+
+       <img src="./public/images/logo.png"  onClick={()=>navigate('/')} />
       </div>
 
 

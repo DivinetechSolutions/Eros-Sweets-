@@ -9,6 +9,7 @@ body, html{
   width: 100wh;
   background-color: white;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 ::-webkit-scrollbar{
@@ -24,3 +25,5 @@ body, html{
   background: #9D0910;
   border-radius: 10px;
 }
+
+
