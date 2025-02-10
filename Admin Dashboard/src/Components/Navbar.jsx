@@ -19,7 +19,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-logo">
 
-       <img src="./public/images/logo.png"  onClick={()=>navigate('/')} />
+       <img src="./public/images/Eros-logo.png"  onClick={()=>navigate('/')} />
       </div>
 
 
