@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home:PickupScreen(/*phoneNumber: '',*/),
+      home:HomeScreen(/*phoneNumber: '',*/),
     );
   }
 }

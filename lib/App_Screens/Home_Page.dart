@@ -222,101 +222,118 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return SizedBox(
-      width: screenWidth * 0.45, // Adjust width dynamically
-      child: Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                blurRadius: 5,
-                spreadRadius: 1),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min, // Prevent overflow
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                "assest/gulab-jamun.png",
-                height: 100,
-                width: double.infinity,
-                fit: BoxFit.contain,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.0), // Added padding to create space between cards
+      child: SizedBox(
+        width: screenWidth * 0.45, // Adjust width dynamically
+        child: Container(
+          padding: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  blurRadius: 5,
+                  spreadRadius: 1),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min, // Prevent overflow
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  "assest/gulab-jamun.png",
+                  height: 100,
+                  width: double.infinity,
+                  fit: BoxFit.contain,
+                ),
               ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              "Eggless Fresh Cream Pineapple Cake",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            SizedBox(height: 4),
-            Row(
-              children: [
-                Text(
-                  "Cheese Cake",
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
-                ),
-                Spacer(),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.red[300],
-                    borderRadius: BorderRadius.circular(5),
+              SizedBox(height: 8),
+              Text(
+                "Eggless Fresh Cream",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                "Pineapple Cake",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(height: 4),
+              Row(
+                children: [
+                  Text(
+                    "Cheese Cake",
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
                   ),
-                  child: Text(
-                    "Bestseller",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "₹1199",
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    elevation: 1,
-                    shape: RoundedRectangleBorder(
+                  Spacer(),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.red[300],
                       borderRadius: BorderRadius.circular(5),
-                      side: BorderSide(color: Colors.black),
+                    ),
+                    child: Text(
+                      "Bestseller",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
-                  onPressed: () {},
-                  child: Row(
-                    children: [
-                      Icon(Icons.add, color: Colors.black, size: 18),
-                      SizedBox(width: 4),
-                      Text("Add", style: TextStyle(color: Colors.black)),
-                    ],
+                ],
+              ),
+              SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      elevation: 1,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        side: BorderSide(color: Colors.black),
+                      ),
+                    ),
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        builder: (context) => BottomSheetContent(),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.add, color: Colors.black, size: 15),
+                        SizedBox(width: 4),
+                        Text("Add", style: TextStyle(color: Colors.black)),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  Text(
+                    "₹1199",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
 
 
 
@@ -497,3 +514,182 @@ class _CustomAppBarState extends State<CustomAppBar> {
     );
   }
 }
+
+class BottomSheetContent extends StatefulWidget {
+  @override
+  _BottomSheetContentState createState() => _BottomSheetContentState();
+}
+
+class _BottomSheetContentState extends State<BottomSheetContent> {
+  int quantity = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    return DraggableScrollableSheet(
+      initialChildSize: 0.6, // Increased initial size
+      maxChildSize: 0.8, // Allows more expansion
+      minChildSize: 0.45, // Increased minimum size
+      builder: (context, scrollController) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          padding: EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Drag Handle
+              Container(
+                width: 50,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: Colors.grey[400],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              SizedBox(height: 20),
+
+              // Product Image (Increased height)
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  "assest/aloo-bhujiya.png", // Ensure correct path
+                  height: 160, // Increased height
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              SizedBox(height: 10),
+
+              // Product Details
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // "New" Badge and Share Icon
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 4, horizontal: 8),
+                          decoration: BoxDecoration(
+                            color: Colors.pink[100],
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Text(
+                            "New",
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12),
+                          ),
+                        ),
+
+                      ],
+                    ),
+                    SizedBox(height: 5),
+
+                    // Product Title
+                    Row(
+                      children: [
+                        Text(
+                          "Aloo Bhujia [100g]",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        Spacer(),
+                        Icon(Icons.share, color: Colors.black),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Text("Rs 180",style: TextStyle(fontWeight: FontWeight.bold),),
+                    // Product Description
+                    Text(
+                      "Made with cheese, butter & a touch of mustard and chilli",
+                      style: TextStyle(color: Colors.grey, fontSize: 14),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+
+              // Quantity Selector and Price
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Quantity Selector
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.red[100],
+                    ),
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            if (quantity > 1) {
+                              setState(() {
+                                quantity--;
+                              });
+                            }
+                          },
+                          icon: Icon(Icons.remove, color: Colors.black),
+                        ),
+                        Text(quantity.toString(),
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              quantity++;
+                            });
+                          },
+                          icon: Icon(Icons.add, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Price
+                  Text(
+                    "Rs ${180 * quantity}",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              // Bottom Button
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                ),
+                onPressed: () {
+                  Navigator.pop(context); // Close the bottom sheet
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Rs ${180 * quantity}",
+                        style: TextStyle(fontSize: 16)),
+                    SizedBox(width: 10),
+                    Text("View Cart",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+
