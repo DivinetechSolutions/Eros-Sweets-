@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'Home_Page.dart';
+// Ensure the correct import path
+
 void main() {
-  runApp(PickupScreen());
+  runApp(MaterialApp(home: PickupScreen()));
 }
 
 class PickupScreen extends StatelessWidget {
@@ -9,47 +12,9 @@ class PickupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        backgroundColor: Colors.amber,
-        title: Text("Sheetal Park, Rajkot"),
-        actions: [
-          Icon(Icons.person),
-          SizedBox(width: 10),
-          Icon(Icons.search),
-          SizedBox(width: 10),
-        ],
-      ),
+      appBar: CustomAppBar(), // Replace the default AppBar with CustomAppBar
       body: Column(
         children: [
-          // Delivery & Pickup Toggle
-          Container(
-            color: Colors.amber,
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                    ),
-                    onPressed: () {},
-                    child: Text("Delivery", style: TextStyle(color: Colors.black)),
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                    ),
-                    onPressed: () {},
-                    child: Text("Pickup", style: TextStyle(color: Colors.white)),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
           // Pickup Location
           Container(
             padding: EdgeInsets.all(15),
@@ -64,7 +29,7 @@ class PickupScreen extends StatelessWidget {
                     Text("Pickup your order from here"),
                   ],
                 ),
-                Text("Eros foods pvt.Limited", style: TextStyle(fontWeight: FontWeight.bold)),
+                Text("Eros foods pvt. Limited", style: TextStyle(fontWeight: FontWeight.bold)),
                 TextButton(
                   onPressed: () {},
                   child: Text("Get Direction", style: TextStyle(color: Colors.blue)),
