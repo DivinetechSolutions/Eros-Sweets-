@@ -131,15 +131,7 @@ const Order = () => {
 
   return (
     <div className='main-box'>
-      <div className="top-bar">
-        <button className="back-btn" onClick={() => navigate(-1)}>
-          <i className="fa-solid fa-chevron-left"></i>
-        </button>
-        <p>Order</p>
-        <div className="top-right">
-
-        </div>
-      </div>
+     
 
       <div className="four-card">
         <div className="crd">

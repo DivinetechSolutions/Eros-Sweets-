@@ -24,11 +24,10 @@ function App() {
     <ToastContainer/>
     <Routes>
       <Route path='/' element={<Layout/>} >
-           <Route path='/' element={<MainSection/>} />
+           <Route path='/' element={<Order/>} />
            <Route path='/notification' element={<Bell/>}/>
            <Route path='/category' element={<Category/>}/>
            <Route path='/product' element={<Product/>}/>
-           <Route path='/order' element={<Order/>}/>
            <Route path='/add-product' element={<AddProduct/>}/>
            <Route path='/edit/:_id' element={<EditForm/>}/>
            <Route path='/setting-product' element={<SettingProduct/>}/>

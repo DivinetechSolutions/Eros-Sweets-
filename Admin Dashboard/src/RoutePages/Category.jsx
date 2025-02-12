@@ -173,14 +173,14 @@ const Category = () => {
       {/* Background content with blur effect */}
       <div className={`content ${isModalOpen ? 'blur' : ''}`}>
         <div className="top-bar">
-          <button className="back-btn" onClick={() => navigate(-1)}>
+          <button className="back-btn" onClick={() => navigate('/order')}>
             <i className="fa-solid fa-chevron-left"></i>
           </button>
-          <p>Categories</p>
           <div className="top-right">
             <button onClick={() => setIsModalOpen(true)}>
               <i className="fa-solid fa-plus add-btn"></i> Add Category
             </button>
+          
           </div>
         </div>
 

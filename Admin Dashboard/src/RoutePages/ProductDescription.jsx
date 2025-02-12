@@ -94,7 +94,7 @@
 //       <div className="product-info">
 //         <h2 className="header-letter">{data.ProductName}  <button>published</button></h2>
 //         <div className="rating">
-//           <span>Sold : {product.sold}</span>|<span>Rating :⭐ {product.rating}/5</span> | <span>Stock :{" "} {product.stock}</span>
+//           <span>Sold : {product.sold}</span>|<span>Rating : {product.rating}/5</span> | <span>Stock :{" "} {product.stock}</span>
           
 //         </div>
 //         <h3 className="product-price">{data.Price}</h3>
@@ -180,7 +180,7 @@ const ProductDescription = () => {
   }, [_id]);
 
   // Sample product data with weight options and different prices
-  const cleanPrice = parseFloat(data.Price.replace(/[^\d.]/g, "")) || 0; // Remove non-numeric characters
+  const cleanPrice = parseFloat(data.Price.replace(/[^\d.]/g, "")) || 0; 
 
   const product = {
     weights: ["250 gm", "500 gm", "1 kg"], 
@@ -190,7 +190,17 @@ const ProductDescription = () => {
       "1 kg": (cleanPrice * 4).toFixed(2),
     },
   };
-  
+   
+
+  const [imgError, setImgError] = useState(false);
+
+  const productImageUrl = data.ProductImage[0]?.startsWith('http')
+    ? data.ProductImage[0]
+    : `http://localhost:5000${data.ProductImage[0] || ''}`;
+
+
+
+    
 
   return (
     <div className="main-box">
@@ -198,7 +208,7 @@ const ProductDescription = () => {
         <button className="back-btn" onClick={() => navigate(-1)}>
           <i className="fa-solid fa-chevron-left"></i>
         </button>
-        <p>Order</p>
+        <p>product Description</p>
         <div className="top-right">
           <button className="btn-export" style={{ width: "110px" }}>
             <i className="fa-solid fa-trash" style={{ marginRight: "10px" }}></i>Delete
@@ -215,13 +225,26 @@ const ProductDescription = () => {
         {/* Left: Image Gallery */}
         <div className="image-gallery">
           <div className="main-image">
-            {/* <img src={selectedImage} alt="Product" /> */}
+            {/* <img src={selectedImage} alt="Product" />
             <img src={data.ProductImage[0]?.startsWith('http') ? data.ProductImage[0] : `http://localhost:5000${data.ProductImage || ''}`}
-            alt={data.ProductName} className="product-image"/>
+            alt={data.ProductName} className="product-image"/> */}
+
+         {!imgError ? (
+         <img
+          src={selectedImage}
+          alt="Product"
+          onError={() => setImgError(true)}  // If this fails, switch to the second image
+        />
+       ) : (
+        <img
+          src={productImageUrl}
+          alt={data.ProductName}
+        />
+      )}
           </div>
 
           <div className="thumbnail-gallery">
-            {data.ProductImage.map((img, index) => (
+            {/* {data.ProductImage.map((img, index) => (
               <img
                 key={index}
                 src={img}
@@ -229,7 +252,29 @@ const ProductDescription = () => {
                 className={selectedImage === img ? "active" : ""}
                 onClick={() => setSelectedImage(img)}
               />
-            ))}
+            ))} */}
+
+{data.ProductImage.length > 1 ? (
+    data.ProductImage.map((img, index) => (
+      <img
+        key={index}
+        src={img}
+        alt={`Thumbnail ${index}`}
+        className={selectedImage === img ? "active" : ""}
+        onClick={() => {
+          setSelectedImage(img);
+          setImgError(false);  // Reset error state when selecting a new image
+        }}
+      />
+    ))
+  ) : (
+    <img
+      src={data.ProductImage[0] || data.ProductImage[0]?.startsWith('http') ? data.ProductImage[0] : `http://localhost:5000${data.ProductImage || ''}`} 
+      alt="Thumbnail"
+      className="active"
+    />
+  )}
+            
           </div>
         </div>
 

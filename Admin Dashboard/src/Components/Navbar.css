@@ -5,7 +5,8 @@
   background-color: #ffe0e5;
   padding: 10px 20px;
   font-family: "Arial", sans-serif;
-  width: 100wh;
+  width: 100%;
+  z-index: 1000;
     
 }
 

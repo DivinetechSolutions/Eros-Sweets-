@@ -1,5 +1,5 @@
 .category-container{
-    width: 100wh;
+    width: auto;
     height: 100%;
     background-color: #ffe0e5;
     padding: 0px 25px ;
@@ -75,7 +75,7 @@
     padding: 25px;
     display: grid;
     margin: 15px 100px;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap:20px;
    
   

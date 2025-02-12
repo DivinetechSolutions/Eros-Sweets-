@@ -16,7 +16,7 @@ const SettingProduct = () => {
   return (
     <div className="main-box">
       <div className="top-bar">
-        <button className="back-btn" onClick={() => navigate(-1)}>
+        <button className="back-btn" onClick={() => navigate('/order')}>
           <i className="fa-solid fa-chevron-left"></i>
         </button>
         <p>Profile Setting</p>

@@ -26,4 +26,6 @@ body, html{
   border-radius: 10px;
 }
 
-
+.back-btn{
+  display: none;
+}
