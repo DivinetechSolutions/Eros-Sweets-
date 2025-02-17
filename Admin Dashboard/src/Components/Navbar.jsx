@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Navbar.css";
-import MainSection from "./MainSection";
+// import MainSection from "./MainSection";
 import { Link , useNavigate } from "react-router-dom";
 
 const Navbar = () => {
@@ -29,7 +29,7 @@ const Navbar = () => {
       <Link to='/notification'><i className="fa-regular fa-bell" id="icon"></i></Link>
       <span className="bell">{data}</span>
 
-      <div className="profile show" onClick={ShowUser}>
+      <div className="profile" onClick={ShowUser}>
           <div className="avatar">N</div>
           <p>Nidhi Patel</p>
           <i className="fa-solid fa-angle-down down" id="icon"></i>
@@ -37,8 +37,8 @@ const Navbar = () => {
       </div>
     </nav>
     <div className="id-box ">
-        <div className="avatar">D</div>
-        <p>Demo User</p>
+    <div className="avatar">D</div>
+    <p>Demo User</p>
         </div>
     
     

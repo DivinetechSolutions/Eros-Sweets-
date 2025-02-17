@@ -15,6 +15,7 @@ import React from "react";
 import OrderDetail from './RoutePages/OrderDetail'
 import ProductDescription from './RoutePages/ProductDescription'
 import CategoryProduct from './RoutePages/CategoryProduct'
+import UnderDevelopment from './RoutePages/UnderDevelopment'
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
            <Route path='/order-detail' element={<OrderDetail/>}/>
            <Route path='/product-description/:_id' element={<ProductDescription/>}/>
            <Route path='/category-product/:name' element={<CategoryProduct/>}/>
+           <Route path='/under-development' element={<UnderDevelopment/>}/>
 
       </Route>
 

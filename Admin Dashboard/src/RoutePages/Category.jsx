@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import './Category.css';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Category = () => {
   const [data, setData] = useState([]);
@@ -31,18 +32,20 @@ const Category = () => {
   }, []);
 
 
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/category");
+      const data = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/category");
-        const data = await response.json();
-        setCategories(data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
+
     fetchCategories();
   }, []);
+
 
   const [catImage, setCatImage] = useState([]);
   useEffect(() => {
@@ -155,7 +158,7 @@ const Category = () => {
       });
 
       if (response.status === 201) {
-        alert("Category added successfully!");
+        toast.success("Category added successfully!");
         setIsModalOpen(false);
         clearForm();
         setCategories((prev) => [...prev, response.data]); // Update UI with new category
@@ -163,7 +166,23 @@ const Category = () => {
       }
     } catch (error) {
       console.error("Error adding category:", error);
-      alert("Failed to add category.");
+      toast.warning("Failed to add category.");
+    }
+  };
+
+
+  const handleDelete = async (categoryId) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this category?");
+    try {
+      
+      if (isConfirmed) {
+        const response = await axios.delete(`http://localhost:5000/category/${categoryId}`);
+        toast.success("Category deleted successfully!");
+        setCategories((prev) => prev.filter((category) => category._id !== categoryId)); // Remove category from state
+      }
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      toast.warning("Failed to delete category.");
     }
   };
 
@@ -173,23 +192,22 @@ const Category = () => {
       {/* Background content with blur effect */}
       <div className={`content ${isModalOpen ? 'blur' : ''}`}>
         <div className="top-bar">
-          <button className="back-btn" onClick={() => navigate('/order')}>
+          <button className="back-btn" onClick={() => navigate(-1)}>
             <i className="fa-solid fa-chevron-left"></i>
           </button>
           <div className="top-right">
             <button onClick={() => setIsModalOpen(true)}>
               <i className="fa-solid fa-plus add-btn"></i> Add Category
             </button>
-          
+
           </div>
         </div>
 
         <div className="product-card-container">
-          {categories.map((e, index) => (
+          {/* {categories.map((e, index) => (
             <div className="category-card" key={index} onClick={() => navigate(`/category-product/${(e.name)}`)}
 >
               <div className="card-image">
-                {/* <img src={e.image} alt="Category" /> */}
 
                 <img
                   src={e.image?.startsWith('http') ? e.image : `http://localhost:5000${e.image || ''}`}
@@ -198,12 +216,12 @@ const Category = () => {
 
               </div>
               <div className="name-size">
+                <div>
                 <h4 className='ans-card'>{e.name || "Uncategorized"}</h4>
 
 
                 {
                   (() => {
-                    // const matchedCategory = data2.find((c) => c._id === e.name);
                     const matchedCategory = data2.find((c) => c._id.trim().toLowerCase() === e.name.trim().toLowerCase());
 
                     return matchedCategory ? (
@@ -213,10 +231,39 @@ const Category = () => {
                     );
                   })()
                 }
+                </div>
+              
+              <button>delete</button>
+              </div>
+            </div>
+          ))} */}
 
+          {categories.map((e, index) => (
+            <div className="category-card" key={index} >
+              <div className="card-image" onClick={() => navigate(`/category-product/${(e.name)}`)}>
+                <img
+                  src={e.image?.startsWith('http') ? e.image : `http://localhost:5000${e.image || ''}`}
+                  alt={e.name}
+                />
+              </div>
+              <div className="name-size">
+                <div>
+                  <h4 className='ans-card'>{e.name || "Uncategorized"}</h4>
+
+                  {(() => {
+                    const matchedCategory = data2.find((c) => c._id.trim().toLowerCase() === e.name.trim().toLowerCase());
+                    return matchedCategory ? (
+                      <p className='ans-card'>{matchedCategory.count} items</p>
+                    ) : (
+                      <p className='ans-card'>0 items</p>
+                    );
+                  })()}
+                </div>
+                <button className='category-delete-btn' onClick={() => handleDelete(e._id)}>Delete</button>
               </div>
             </div>
           ))}
+
         </div>
       </div>
 
@@ -240,7 +287,7 @@ const Category = () => {
               <div className="file-box">
                 <h3 style={{ marginTop: '10px' }}>Images</h3>
                 <div className="img-box">
-               
+
 
                   <input
                     type="file"
@@ -263,7 +310,7 @@ const Category = () => {
 
             <div className='button-box'>
               <button type="button" className='clear-btn' onClick={clearForm}>Clear</button>
-              <button className="close-btn" onClick={handleSave}>save</button>
+              <button className="close-button" onClick={handleSave}>save</button>
             </div>
           </div>
         </div>

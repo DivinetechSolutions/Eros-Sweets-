@@ -225,9 +225,7 @@ const ProductDescription = () => {
         {/* Left: Image Gallery */}
         <div className="image-gallery">
           <div className="main-image">
-            {/* <img src={selectedImage} alt="Product" />
-            <img src={data.ProductImage[0]?.startsWith('http') ? data.ProductImage[0] : `http://localhost:5000${data.ProductImage || ''}`}
-            alt={data.ProductName} className="product-image"/> */}
+          
 
          {!imgError ? (
          <img

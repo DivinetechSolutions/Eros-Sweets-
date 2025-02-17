@@ -128,6 +128,7 @@ const Product = () => {
   };
 
   const handleDelete = async (id) => {
+    
     try {
       await axios.delete(`http://localhost:5000/product/${id}`);
       toast.success('Product deleted successfully!');
@@ -139,7 +140,8 @@ const Product = () => {
     }
   };
 
-  const handleCheckboxChange = (id) => {
+  const 
+  handleCheckboxChange = (id) => {
     setSelectedOptions((prev) =>
       prev.includes(id) ? prev.filter((option) => option !== id) : [...prev, id]
     );
@@ -175,7 +177,7 @@ const Product = () => {
       ) : (
         <>
           <div className="top-bar">
-            <button className="back-btn" onClick={() => navigate('/order')}>
+            <button className="back-btn" onClick={() => navigate('/')}>
               <i className="fa-solid fa-chevron-left"></i>
             </button>
             <div className="top-right">
@@ -280,7 +282,7 @@ const Product = () => {
                   </tbody>
                 </table>
 
-                <div className="pagination">
+                {/* <div className="pagination">
                   <div>
                     <button
                       disabled={currentPage === 1}
@@ -308,7 +310,53 @@ const Product = () => {
                     </button>
                   </div>
                   <span style={{ color: "#5c5a5a", marginRight: "15px" }}>{filteredProducts.length} Result</span>
-                </div>
+                </div> */}
+                <div className="pagination">
+  <div>
+    {/* Previous Button */}
+    <button
+      disabled={currentPage === 1}
+      onClick={() => handlePageChange(currentPage - 1)}
+    >
+      <i className="fa-solid fa-arrow-left"></i>
+    </button>
+
+    {/* Dynamic Pagination for Mobile */}
+    {[...Array(totalPages).keys()]
+      .map((page) => page + 1)
+      .filter(
+        (page) =>
+          page === 1 || 
+          page === totalPages || 
+          (page >= currentPage - 2 && page <= currentPage + 2)
+      )
+      .map((page, index, arr) => (
+        <React.Fragment key={page}>
+          {index > 0 && arr[index - 1] !== page - 1 && <span>...</span>}
+          <button
+            style={{
+              color: currentPage === page ? "#9D0910" : "#5c5a5a",
+            }}
+            onClick={() => handlePageChange(page)}
+          >
+            {page}
+          </button>
+        </React.Fragment>
+      ))}
+
+    {/* Next Button */}
+    <button
+      disabled={currentPage === totalPages}
+      onClick={() => handlePageChange(currentPage + 1)}
+    >
+      <i className="fa-solid fa-arrow-right"></i>
+    </button>
+  </div>
+  <span style={{ color: "#5c5a5a", marginRight: "15px" }}>
+    {filteredProducts.length} Result
+  </span>
+</div>
+
               </div>
             </div>
           </div>

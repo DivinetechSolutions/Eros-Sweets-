@@ -144,7 +144,7 @@ body{
     }
   
     .form-container .img-box{
-      width: 100%;
+      width: auto;
       height: 120px;
       border: 2px dashed #aaacae;
       display: flex;

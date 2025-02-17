@@ -183,7 +183,7 @@ const Order = () => {
               <div className="custom-dropdown">
                 <button className="dropdown-btn" onClick={toggleDropdown}>
                   Filter
-                  <i className="fa-solid fa-angle-down down" style={{ marginLeft: "80px" }}></i>
+                  <i className="fa-solid fa-angle-down" style={{ marginLeft: "80px" }}></i>
                 </button>
                 {isOpen && (
                   <div className="dropdown-menu" onMouseLeave={toggleDropdown}>
@@ -228,12 +228,12 @@ const Order = () => {
             <table>
               <thead>
                 <tr>
-                  <th>Product</th>
+                  <th>OrderId</th>
                   <th>Product Name</th>
-                  <th>Date</th>
-                  <th>Customer</th>
-                  <th>Price</th>
-                  <th>Payment Status</th>
+                  <th className='mobile-hide'>Date</th>
+                  <th className='mobile-hide'>Customer</th>
+                  <th className='mobile-hide'>Price</th>
+                  <th className='mobile-hide'>Payment Status</th>
                   <th>Order Status</th>
 
                 </tr>
@@ -244,23 +244,23 @@ const Order = () => {
                     <td style={{ justifyContent: "center" }} className='order-id' onClick={showDetails}>#23489F</td>
                     <td className="product-details" onClick={showDetails}>
                       {/* <img src={product.ProductImage} alt={product.ProductName} /> */}
-                      <img src={product.ProductImage[0]?.startsWith('http') ? product.ProductImage[0] : `http://localhost:5000${product.ProductImage || ''}`} alt="" />
+                      <img className='mobile-hide' src={product.ProductImage[0]?.startsWith('http') ? product.ProductImage[0] : `http://localhost:5000${product.ProductImage || ''}`} alt="" />
                       <div>
                         <div className="product-name">{product.ProductName}</div>
-                        <div className="product-category">{product.Category}</div>
+                        <div  className="product-category mobile-hide">{product.Category}</div>
                       </div>
                     </td>
-                    <td>May 5, 4:20 PM</td>
-                    <td>Divayaraj Shinh</td>
-                    <td>{product.Price}</td>
-                    <td><p className='pymt-status'>Paid</p></td>
-                    <td><p className='order-status'>Delivered</p></td>
+                    <td className='mobile-hide'>May 5, 4:20 PM</td>
+                    <td className='mobile-hide'>Divayaraj Shinh</td>
+                    <td className='mobile-hide'>{product.Price}</td>
+                    <td className='mobile-hide'><p className='pymt-status'>Paid</p></td>
+                    <td className='status-order'><p className='order-status'>Delivered</p></td>
                   </tr>
                 ))}
               </tbody>
             </table>
 
-            <div className="pagination">
+            {/* <div className="pagination">
               <div>
                 <button
                   disabled={currentPage === 1}
@@ -287,7 +287,54 @@ const Order = () => {
                 </button>
               </div>
               <span style={{ color: "#5c5a5a", marginRight: "15px" }}>{filteredProducts.length} Result</span>
-            </div>
+            </div> */}
+
+<div className="pagination">
+  <div>
+    {/* Previous Button */}
+    <button
+      disabled={currentPage === 1}
+      onClick={() => handlePageChange(currentPage - 1)}
+    >
+      <i className="fa-solid fa-arrow-left"></i>
+    </button>
+
+    {/* Dynamic Pagination for Mobile */}
+    {[...Array(totalPages).keys()]
+      .map((page) => page + 1)
+      .filter(
+        (page) =>
+          page === 1 || 
+          page === totalPages || 
+          (page >= currentPage - 2 && page <= currentPage + 2)
+      )
+      .map((page, index, arr) => (
+        <React.Fragment key={page}>
+          {index > 0 && arr[index - 1] !== page - 1 && <span>...</span>}
+          <button
+            style={{
+              color: currentPage === page ? "#9D0910" : "#5c5a5a",
+            }}
+            onClick={() => handlePageChange(page)}
+          >
+            {page}
+          </button>
+        </React.Fragment>
+      ))}
+
+    {/* Next Button */}
+    <button
+      disabled={currentPage === totalPages}
+      onClick={() => handlePageChange(currentPage + 1)}
+    >
+      <i className="fa-solid fa-arrow-right"></i>
+    </button>
+  </div>
+  <span style={{ color: "#5c5a5a", marginRight: "15px" }}>
+    {filteredProducts.length} Result
+  </span>
+</div>
+
           </div>
         </div>
       </div>

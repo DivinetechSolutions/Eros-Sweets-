@@ -12,12 +12,13 @@ import Navbar from './Navbar'
 
 // export default Layout
 
-
-
+import { Users , ChartColumnStacked , UserRoundPen ,AlignJustify , User , LayoutDashboard   } from 'lucide-react';
+import { IconUserFilled } from '@tabler/icons-preact';
 import React from 'react'
 import './Layout.css'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useState } from 'react'
+import { Tag } from 'lucide-react';
 
 
 const Layout = () => {
@@ -45,31 +46,35 @@ const Layout = () => {
              <Navbar/>
     
         </div>
-        <div className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
+        <div id="sidebar-main" className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
            
             <h4 className={isSidebarOpen ? 'close-btn' : 'closed-menu-btn'} onClick={()=>{
               toggleSidebar()
               nameset()
-              }}><i class="fa-solid fa-bars" ></i></h4>
+              }}><i className="fa-solid fa-bars"></i></h4>
             
-            <div id={isSidebarOpen ? 'sidebar_links' : 'sidebar_links-closed'}>
+            <div id={isSidebarOpen ? 'sidebar_links' : 'sidebar_links-closed'} className='sidebar-active' >
             
 
 
-                <NavLink to='/' className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} >
-                 <i class="fa-solid fa-home"></i> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Dashboard</span>
+                <NavLink to='/' className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} title="Dashboard" >
+                <LayoutDashboard className='nav-icon'/> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Dashboard</span>
                 </NavLink>
              
-                <NavLink to='/product' className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} >
-                 <i class="fa-solid fa-tag"></i> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Products</span>
+                <NavLink to='/product' title="Products" className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'}  >
+                <Tag className='nav-icon'/> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Products</span>
                 </NavLink>
                
-                <NavLink to='/category' className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} >
-                 <i class="fa-solid fa-file"></i> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Categories</span>
+                <NavLink to='/category' title='Categories' className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} >
+                 <ChartColumnStacked className='nav-icon'/> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Categories</span>
                 </NavLink>
                
-                <NavLink to='/setting-product' className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} >
-                 <i class="fa-solid fa-user"></i> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Profile</span>
+                <NavLink to='/setting-product' title='Customer'  className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} >
+               <User className='nav-icon'/> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Customer</span>
+                </NavLink>
+
+                <NavLink to='/under-development' title="Team" className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} >
+                <Users className='nav-icon'/> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Team</span>
                 </NavLink>
     
              

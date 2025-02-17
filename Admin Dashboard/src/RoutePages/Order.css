@@ -1,6 +1,6 @@
 .main-box{
     /* margin-top: 20px; */
-    width: 100wh;
+    /* width: 100wh; */
     height: auto;
     padding-bottom: 20px;
     padding: 0px 25px ;
@@ -127,7 +127,7 @@
   line-height: 35px;
 }
 .main-box .main-bar{
-    height: 85vh;
+    min-height: 100%;
     width: 100%;
     background-color: #fff;
     /* position: fixed; */
@@ -463,4 +463,75 @@ input[type="checkbox"]:checked {
   .pagination button:hover {
     background-color: #ECF2FF;
   }
+  
+
+  /*------------------Responsive Code------------------*/
+
+  @media (max-width:480px) {
+  
+    .main-box{
+    
+     width: 100%;
+     overflow: hidden;
+      margin:0px;
+      height: 100vh;
+    }
+
+    .four-card{
+      display: flex;
+      margin: 0px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+      justify-content: center;
+      gap: 13px;
+      align-items: center;
+      
+    }
+
+    .crd{
+      height: 85px;
+      line-height: 29px;
+      display: flex;
+      width: 170px;
+      /* margin: 5px; */
+    }
+     
+    .mobile-hide{
+      display: none;
+    }
+    .product-name{
+      height: 50px;
+      text-align: center;
+      width: 100px;
+      margin-left: 12px;
+    }
+  
+    td .order-status{
+      width: auto;
+     margin-right: 15px;
+    }
+
+   th,td{
+    font-size: 13px;
+   }
+
+   .dropdown-menu {
+    position: absolute;
+    margin-top: 5px;
+    width: 135px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .two-option{
+    width: 100%;
+  }
+  }
+
+
+    
   

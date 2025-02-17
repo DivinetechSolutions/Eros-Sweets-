@@ -286,6 +286,21 @@ app.delete('/product/:id', async (req, res) => {
   }
 });
 
+// 5. delete category
+
+app.delete('/category/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedCategory = await Category.findByIdAndDelete(id);
+    if (!deletedCategory) {
+      return res.status(404).send('Category not found');
+    }
+    res.status(200).send('Category deleted successfully');
+  } catch (error) {
+    res.status(500).send('Server error');
+  }
+});
+
 
 
 

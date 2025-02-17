@@ -3,9 +3,6 @@
 
 }
 
-
-
-
 .main-box{
     margin-top: 20px;
     width: 100wh;
@@ -367,3 +364,16 @@ input[type="checkbox"]:checked {
     background-color: #ECF2FF;
   }
   
+   @media (max-width:480px) {
+
+    .main-box{
+      margin-top: 20px;
+      width: 100wh;
+      height: 100%;
+      padding-bottom: 20px;
+      padding: 0px ;
+      background-color: #ffe0e5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+    
+   }
