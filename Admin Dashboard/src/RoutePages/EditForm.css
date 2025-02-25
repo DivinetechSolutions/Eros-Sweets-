@@ -243,7 +243,6 @@ body{
       display: flex;
       flex-direction: column;
       align-items: center;
-      height: 100%;
       margin-right: 20px;
     }
   
@@ -394,3 +393,99 @@ body{
       background-color: #9D0910;
       color:#fff ;
     }
+
+    @media (max-width:768px) {
+
+      .form-section
+      {
+        padding: 0px 10px 0px 0px;
+      }
+      .form-container .left-form{
+        padding: 8px;
+        width: 100%;
+        background-color: #fff;
+        height: 100%;
+        margin-right: 45px;
+        border-radius: 5px;
+      }
+      .left-form .input-box
+      {
+        padding-right:18px ;
+      }
+      .form-container{
+        padding: 0;
+      }
+      .form-container .img-box{
+        width: 86%;
+        height: 120px;
+        border: 2px dashed #aaacae;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        justify-content: center;
+      }
+
+      .form-container .file-box{
+        height: 36%;
+        width: 100%;
+        padding: 0;
+        border-bottom: 2px solid #565759;
+      }
+       
+      .form-container .price-box{
+        margin-top: 25px;
+        width: 100%;
+       height: auto;
+    }
+
+    .price-left
+    {
+      width: 100%;
+    }
+
+    .form-container .price-input .price-left,.price-right
+    {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .right-form
+    {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .right-form .top
+    {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      background-color: #fff;
+    }
+    .form-container .right-form{
+      width: 100%;
+      border-radius: 5px;
+      height: 100%;
+    }
+
+    .down{
+      height: 100%;
+      width: 100%;
+      border-radius: 5px;
+      background-color: #ffff;
+    }
+
+    .right-form .top {
+      width: 100%;  /* Full width */
+      height: auto;  /* Adjust height as needed */
+      padding: 15px;  /* Add padding for spacing */
+      margin-bottom: 15px; /* Reduce bottom margin */
+      display: flex;
+      flex-direction: column;
+       /* Center content */
+    }
+  }

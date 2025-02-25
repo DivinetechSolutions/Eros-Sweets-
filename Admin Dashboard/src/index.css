@@ -5,6 +5,7 @@
   /* box-sizing: border-box; */
 }
 
+
 body, html{
   height: 100%;
   width: 100%;
@@ -30,3 +31,9 @@ body, html{
 .back-btn{
   display: none;
 }
+
+.main-box{
+  border-radius: 12px;
+  
+}
+

@@ -1,0 +1,263 @@
+.main-box{
+    padding: 0px;
+    background-color: white;
+    height:auto;
+    width: 100%;
+    overflow: hidden;
+}
+
+.dashboard-top-bar{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dash-txt{
+  line-height: 50px;
+  margin-left: 8px;
+}
+
+.manage-btn
+{
+    padding: 8px 10px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #9D0910;
+    margin: 10px 10px;
+}
+
+.box-container-div{
+    width: auto;
+    display: flex;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: space-between;
+    /* flex-wrap: wrap;  */
+    gap: 15px; /* Space between boxes */
+}
+.graph-section{
+    width: 100%;
+}
+
+.data-box-card{
+    height: 100px;
+    width: 18.9rem;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #EB9B9BD6;
+    padding: 10px;
+    margin: 0px 10px;
+}
+
+.text-side{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+}
+
+.text-side h4{
+    color: white;
+    font-size: 22px;
+}
+
+.text-side .red-txt{
+    color: #9D0910;
+    font-weight: 500;
+}
+
+.text-side .green-txt{
+    color: #19A506;
+}
+
+
+.icon-side{
+    padding: 5px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: #E6E9F4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   margin-right: 8px; 
+}
+
+
+.graph-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.chart-container {
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+}
+
+.third-section,
+.fourth-section,
+.fifth-section {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap; /* Responsive fix */
+}
+
+.avatar-td{
+    display: flex;
+    width: auto;
+    height: 70px;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.td-name
+{
+    margin: 0px;
+}
+
+.transaction-box,
+.unit-box,
+.shop-seller,
+.overview-box{    
+    width: 48%; /* Responsive fix */
+    border-radius: 8px;
+    border: 2px solid #E6E9F4;
+    padding: 15px;
+    margin-top: 15px;
+    box-sizing: border-box;
+}
+
+.comment-box1
+{
+    width: 48%; /* Responsive fix */
+    border-radius: 8px;
+    border: 2px solid #E6E9F4;
+    margin-top: 15px;
+    box-sizing: border-box;
+}
+
+.earning-box {
+    position: relative;
+    width: 48%; /* Responsive fix */
+    border-radius: 8px;
+    border: 2px solid #E6E9F4;
+    /* padding: 15px; */
+    margin-top: 15px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.earning-box canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+@media (max-width:1275px) {
+
+    .box-container-div {
+        flex-direction: column;
+        align-items: center;
+    
+    }
+    
+    .data-box-card {
+        width: 90%;
+        margin: 0px;
+    
+    }
+    
+    .third-section,
+    .fourth-section,
+    .fifth-section {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .transaction-box,
+    .unit-box,
+    .shop-seller,
+    .earning-box,
+    .overview-box,
+    .comment-box1 {
+        width: 100%;
+    }
+    
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+
+.box-container-div {
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.data-box-card {
+    width: 90%;
+    margin: 0px;
+
+}
+
+.third-section,
+.fourth-section,
+.fifth-section {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.transaction-box,
+.unit-box,
+.shop-seller,
+.earning-box,
+.overview-box,
+.comment-box1 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.earnings-container {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+.earning-box {
+    height: auto;
+    padding: 15px;
+}
+
+.main-box
+{
+    overflow: visible;
+}
+
+.product-overview-table {
+    overflow-x: auto;
+    display: block;
+    max-width: 100%;
+}
+
+.graph-section{
+    width: 100%;
+    padding: 0px 15px;
+}
+
+}
+

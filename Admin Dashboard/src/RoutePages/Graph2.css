@@ -1,0 +1,75 @@
+.earnings-container {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    
+  }
+  
+  .earnings-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .earnings-summary {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .revenue-label,
+  .profit-label {
+    font-size: 20px;
+    font-weight: bold;
+    color: #8b0000;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .profit-label {
+    color: #d87093;
+    font-size: 24px;
+  }
+  
+  .earnings-value {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .growth-rate {
+    font-size: 14px;
+    color: #28a745;
+    margin-left: 5px;
+  }
+  
+
+  .profit-text{
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    
+  }
+
+  @media (max-width:768px) {
+    .profit-text{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 4px;
+    }
+
+    .earnings-value {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .revenue-label,
+    .profit-label {
+      font-size: 16px;
+      font-weight: bold;
+      color: #8b0000;
+      display: block;
+      margin-bottom: 5px;
+    }
+  }

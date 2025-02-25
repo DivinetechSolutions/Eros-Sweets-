@@ -77,7 +77,7 @@ const AddProduct = () => {
   };
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name] : e.target.value });
     // resetForm()
   };
 
@@ -295,14 +295,7 @@ const AddProduct = () => {
                        
                         ))}
 
-                  {/* <option value="Sweet">Sweet</option>
-                  <option value="Namkeen">Namkeen</option>
-                  <option value="Sweet_Hampers">Sweet Hampers</option>
-                  <option value="Sugar_Free">Sugar Free</option>
-                  <option value="namkeen_hampers">Namkeen Hampers</option>
-                  <option value="Corporate_Collection">Corporate Collection</option>
-                  <option value="Wedding_Collection">Wedding Collection</option>
-                  <option value="Combos">Combos</option> */}
+  
                 </select>
 
               </div>

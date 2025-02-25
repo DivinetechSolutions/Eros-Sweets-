@@ -214,7 +214,7 @@ const ProductDescription = () => {
             <i className="fa-solid fa-trash" style={{ marginRight: "10px" }}></i>Delete
           </button>
           <button onClick={()=>navigate(`/edit/${data._id}`)}>
-            <Link  style={{ color: "#fff" }}>
+            <Link  style={{ color: "#fff" , textDecoration:"none" }}>
               <i className="fa-solid fa-pen"></i> Edit Product
             </Link>
           </button>

@@ -6,7 +6,7 @@ import SettingProduct from './RoutePages/SettingProduct'
 import Order from './RoutePages/Order'
 import Product from './RoutePages/Product'
 import Layout from './Components/Layout'
-import MainSection from './Components/MainSection'
+// import MainSection from './Components/MainSection'
 import AddProduct from './RoutePages/AddProduct'
 import EditForm from './RoutePages/EditForm'
 import { ToastContainer  } from "react-toastify";
@@ -15,7 +15,10 @@ import React from "react";
 import OrderDetail from './RoutePages/OrderDetail'
 import ProductDescription from './RoutePages/ProductDescription'
 import CategoryProduct from './RoutePages/CategoryProduct'
-import UnderDevelopment from './RoutePages/UnderDevelopment'
+import Team from './RoutePages/Team'
+import AdminHome from './RoutePages/AdminHome'
+import TeamAdd from './RoutePages/TeamAdd'
+import Inventory from './RoutePages/Inventory'
 
 function App() {
 
@@ -25,7 +28,7 @@ function App() {
     <ToastContainer/>
     <Routes>
       <Route path='/' element={<Layout/>} >
-           <Route path='/' element={<Order/>} />
+           <Route path='/' element={<AdminHome/>} />
            <Route path='/notification' element={<Bell/>}/>
            <Route path='/category' element={<Category/>}/>
            <Route path='/product' element={<Product/>}/>
@@ -35,7 +38,11 @@ function App() {
            <Route path='/order-detail' element={<OrderDetail/>}/>
            <Route path='/product-description/:_id' element={<ProductDescription/>}/>
            <Route path='/category-product/:name' element={<CategoryProduct/>}/>
-           <Route path='/under-development' element={<UnderDevelopment/>}/>
+           <Route path='/team' element={<Team/>}/>
+           <Route path='/team-add' element={<TeamAdd/>}/>
+           <Route path='/order' element={<Order/>}/>
+           <Route path='/inventory' element={<Inventory/>}/>
+
 
       </Route>
 

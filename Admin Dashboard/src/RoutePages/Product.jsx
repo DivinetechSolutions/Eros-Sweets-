@@ -183,7 +183,7 @@ const Product = () => {
             <div className="top-right">
               <button className="btn-export">Export</button>
               <button>
-                <Link to="/add-product" style={{ color: "#fff" }}>
+                <Link to="/add-product" style={{ color: "#fff" , textDecoration:"none" }}>
                   <i className="fa-solid fa-plus"></i> Add Product
                 </Link>
               </button>

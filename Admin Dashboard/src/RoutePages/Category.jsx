@@ -268,53 +268,54 @@ const Category = () => {
       </div>
 
       {/* Modal */}
+    
       {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <div className='text-div'>
-              <h2>Add Category</h2>
-              <i className="fa-solid fa-xmark" onClick={() => setIsModalOpen(false)}></i>
-            </div>
-            <form>
-              <label>Category Name</label>
-              <input
-                type="text"
-                placeholder="Category Name"
-                value={categoryName}
-                onChange={(e) => setCategoryName(e.target.value)}
-              />
+  <div 
+    className="modal-overlay" 
+    onClick={(e) => {
+      if (e.target.classList.contains("modal-overlay")) {
+        setIsModalOpen(false);
+      }
+    }}
+  >
+    <div className="modal-content">
+      <div className='text-div'>
+        <h2>Add Category</h2>
+        <i className="fa-solid fa-xmark" onClick={() => setIsModalOpen(false)}></i>
+      </div>
+      <form>
+        <label>Category Name</label>
+        <input
+          type="text"
+          placeholder="Category Name"
+          value={categoryName}
+          onChange={(e) => setCategoryName(e.target.value)}
+        />
 
-              <div className="file-box">
-                <h3 style={{ marginTop: '10px' }}>Images</h3>
-                <div className="img-box">
-
-
-                  <input
-                    type="file"
-                    id="file"
-                    accept="image/png, image/jpeg, image/jpg"
-                    onChange={handleImageChange}
-                  />
-                  <label htmlFor="file">Add File</label>
-                  <span>Or drag and drop files</span>
-                </div>
-                {/* {previews.map((pic, index) => (
-                  <div key={index} style={{ width: "120px", height: "120px", display: "flex" }}>
-                    <div style={{ display: "flex" }}>
-                      <img src={pic} alt="Preview" style={{ height: "50px" }} />
-                    </div>
-                  </div>
-                ))} */}
-              </div>
-            </form>
-
-            <div className='button-box'>
-              <button type="button" className='clear-btn' onClick={clearForm}>Clear</button>
-              <button className="close-button" onClick={handleSave}>save</button>
-            </div>
+        <div className="file-box">
+          <h3 style={{ marginTop: '10px' }}>Images</h3>
+          <div className="img-box">
+            <input
+              type="file"
+              id="file"
+              accept="image/png, image/jpeg, image/jpg"
+              onChange={handleImageChange}
+            />
+            <label htmlFor="file">Add File</label>
+            <span>Or drag and drop files</span>
           </div>
         </div>
-      )}
+      </form>
+
+      <div className='button-box'>
+        <button type="button" className='clear-btn' onClick={clearForm}>Clear</button>
+        <button className="close-button" onClick={handleSave}>Save</button>
+      </div>
+    </div>
+  </div>
+)}
+
+
 
 
     </div>

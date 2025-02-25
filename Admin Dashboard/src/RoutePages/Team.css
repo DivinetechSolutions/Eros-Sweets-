@@ -1,0 +1,74 @@
+.main-box{
+  overflow: auto;
+}
+
+.manage-member-btn
+{
+    padding: 10px 15px;
+    background-color: #D74658;
+    color: white;
+    font-weight: 500;
+    margin-right: 10px;
+    transition: 0.3s  ;
+
+}
+
+.manage-member-btn:hover{
+    border: 2px solid #D74658;
+    background-color: white;
+    color: #D74658;
+}
+
+.team-main-container
+{
+    margin-top: 20px;
+    width: 100%;
+    
+    display: grid;
+    gap: 30px;
+    grid-template-columns: repeat(4 ,1fr);
+   place-items: center;
+}
+
+.team-member-box{
+    height: 250px;
+    width: 180px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.team-member-box p{
+    color: grey;
+    text-align: center;
+}
+.team-member-box h4{
+    text-align: center;
+    margin-top: 10px;
+}
+.member-image-box
+{
+    height: 150px;
+    border-radius: 50%;
+    width: 150px;
+}
+
+.member-image-box img{
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+
+@media (max-width:768px) {
+    .team-main-container
+{
+    margin-top: 20px;
+    width: 100%;
+    display: grid;
+    gap: 30px;
+    grid-template-columns: repeat(2 ,1fr);
+   place-items: center;
+}
+    
+}

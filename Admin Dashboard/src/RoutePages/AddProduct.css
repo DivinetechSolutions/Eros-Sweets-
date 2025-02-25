@@ -393,3 +393,122 @@ select{
     background-color: #9D0910;
     color:#fff ;
   }
+
+
+
+
+
+
+
+
+
+
+  @media (max-width:768px) {
+    .form-section
+    {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      gap: 15px;
+      padding: 5px;
+    }
+
+    .form-container{
+      width: 100%;
+      padding: 0px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin-top: 20px;
+      padding-bottom: 20px;
+      background-color: #ffe0e5;
+      margin-bottom: 15px;
+      
+  }
+
+  .form-container .left-form{
+    padding: 15px;
+    width: 100wh;
+    background-color: #fff;
+    height: auto;
+    margin-right: 45px;
+    border-radius: 5px;
+  }
+
+  .form-container .price-input
+  {
+display: flex;
+flex-direction: column;
+  }
+
+
+
+  .price-left input{
+    height: 35px;
+    padding: 0px 8px;
+    border-radius: 5px;
+    border: 2px solid #aaacae;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .price-right input{
+    height: 35px;
+    border-radius: 5px;
+    padding: 0px 8px;
+    border: 2px solid #aaacae;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .form-container .price-input .price-left {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+   .price-right input{
+    width: 91%;
+  }
+  .price-left input{
+    width: 91%;
+  }
+  
+  .form-container .right-form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    height: auto;
+  }
+
+  .right-form .top {
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    background-color: #ffff;
+  }
+
+  .down{
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    background-color: #ffff;
+  }
+
+  .right-form .top {
+    width: 100%;  /* Full width */
+    height: auto;  /* Adjust height as needed */
+    padding: 15px;  /* Add padding for spacing */
+    margin-bottom: 15px; /* Reduce bottom margin */
+    display: flex;
+    flex-direction: column;
+   
+  }
+}
+

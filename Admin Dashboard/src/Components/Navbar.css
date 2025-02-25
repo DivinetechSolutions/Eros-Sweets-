@@ -38,7 +38,7 @@
 .icon-box .bell {
   position: absolute;
   top: -3px;
-  right: 160px;
+  right: 60px;
   background: #d21d1d;
   color: white;
   font-size: 11px;
@@ -46,7 +46,10 @@
   padding: 2px 5px;
   border-radius: 50%;
 }
-
+.menu-button-box
+{
+  display: none;
+}
 .profile {
   display: flex;
   align-items: center;
@@ -72,11 +75,13 @@
   margin: 0;
   font-size: 14px;
   color: #000;
+  display: none;
 }
 
 .profile i {
   font-size: 16px;
   color: #000;
+  display: none;
 }
 
  .id-box{
@@ -106,11 +111,7 @@
 
 }
 
-@media (max-width:480px) {
-  .profile p,.down{
-    display: none;
-
-  }
+@media (max-width:768px) {
 
   .avatar{
     display: flex;
@@ -119,7 +120,7 @@
   .icon-box .bell {
     position: absolute;
     top: -3px;
-    right: 60px;
+    /* right: 60px; */
     background: #d21d1d;
     color: white;
     font-size: 11px;
@@ -145,5 +146,13 @@
     width: 100%;
     z-index: 1000;
       
+  }
+  .menu-button-box{
+    display: block;
+  }
+
+  .menu-button-admin{
+    color: black;
+    margin: 8px;
   }
 }

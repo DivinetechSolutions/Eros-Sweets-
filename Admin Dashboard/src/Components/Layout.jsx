@@ -12,7 +12,8 @@ import Navbar from './Navbar'
 
 // export default Layout
 
-import { Users , ChartColumnStacked , UserRoundPen ,AlignJustify , User , LayoutDashboard   } from 'lucide-react';
+import { PanelTopClose } from 'lucide-react';
+import { Users , ChartColumnStacked , UserRoundPen  , User , LayoutDashboard,Package ,House , Folder ,TicketPercent  ,Archive ,Settings    } from 'lucide-react';
 import { IconUserFilled } from '@tabler/icons-preact';
 import React from 'react'
 import './Layout.css'
@@ -22,16 +23,22 @@ import { Tag } from 'lucide-react';
 
 
 const Layout = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isMobileMenu, setIsMobileMenu] = useState(true);
     const location = useLocation();
    
     
 
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [showName , setshowName] =useState(true);
   // Function to toggle the sidebar visibility
-  const toggleSidebar = () => {
+   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const MobileSidebar = ()=>{
+    setIsMobileMenu(!isMobileMenu);
+  
+  }
   const nameset = () => {
     setshowName(!showName);
   };
@@ -43,39 +50,57 @@ const Layout = () => {
     <aside>
         
         <div className='main-navbar'>
-             <Navbar/>
+             <Navbar  Togglefunction ={MobileSidebar} />
     
         </div>
-        <div id="sidebar-main" className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
+        <div id={`sidebar-main${!isMobileMenu?'show':'hide'}`} className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
            
-            <h4 className={isSidebarOpen ? 'close-btn' : 'closed-menu-btn'} onClick={()=>{
+            <h4 className={isSidebarOpen ? 'close-btn' : 'closed-menu-btn'} id='menu-btn-sidebar' onClick={()=>{
               toggleSidebar()
               nameset()
-              }}><i className="fa-solid fa-bars"></i></h4>
+              }}>{isSidebarOpen ? <PanelTopClose size={32}   className='open-menu-icon'/> :<PanelTopClose size={32}  className='close-menu-icon'/>}</h4>
             
             <div id={isSidebarOpen ? 'sidebar_links' : 'sidebar_links-closed'} className='sidebar-active' >
             
 
-
-                <NavLink to='/' className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} title="Dashboard" >
-                <LayoutDashboard className='nav-icon'/> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Dashboard</span>
+                <NavLink to='/' className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} title="Dashboard" style={{textDecoration:"none"}} onClick={MobileSidebar}>
+                <House  className='nav-icon'/> <span className={`${showName ?  'show-name' : 'hide-name' }`}
+                
+                >Dashboard</span>
                 </NavLink>
              
-                <NavLink to='/product' title="Products" className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'}  >
+                <NavLink to='/product' title="Products" className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} style={{textDecoration:"none"}}  onClick={MobileSidebar}>
                 <Tag className='nav-icon'/> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Products</span>
                 </NavLink>
                
-                <NavLink to='/category' title='Categories' className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} >
-                 <ChartColumnStacked className='nav-icon'/> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Categories</span>
+                <NavLink to='/category' title='Categories' className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} style={{textDecoration:"none"}} onClick={MobileSidebar}>
+                 <Folder  className='nav-icon'/> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Categories</span>
                 </NavLink>
                
-                <NavLink to='/setting-product' title='Customer'  className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} >
-               <User className='nav-icon'/> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Customer</span>
+                <NavLink to='/setting-product' title='Customers'  className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'}style={{textDecoration:"none"}}  onClick={MobileSidebar}>
+               <User className='nav-icon'/> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Customers</span>
                 </NavLink>
 
-                <NavLink to='/under-development' title="Team" className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} >
-                <Users className='nav-icon'/> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Team</span>
+                <NavLink to='/team' title="My Team" className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} style={{textDecoration:"none"}} onClick={MobileSidebar}>
+                <Users className='nav-icon'/> <span className={`${showName ?  'show-name' : 'hide-name' }`}>My Team</span>
                 </NavLink>
+
+                <NavLink to='/inventory' title="Inventory" className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} style={{textDecoration:"none"}} onClick={MobileSidebar}>
+                <Archive  className='nav-icon'  /> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Inventory</span>
+                </NavLink>
+
+                <NavLink to='/order' title="Order" className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} style={{textDecoration:"none"}} onClick={MobileSidebar}>
+                <Package className='nav-icon'  /> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Order</span>
+                </NavLink>
+
+                <NavLink to='coupon' title="Coupon" className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} style={{textDecoration:"none"}} onClick={MobileSidebar}>
+                <TicketPercent   className='nav-icon'  /> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Coupons</span>
+                </NavLink>
+
+                <NavLink to="settings" title="Setting" className={isSidebarOpen ? 'Dashboard-links' : 'closed-navlink'} style={{textDecoration:"none"}} onClick={MobileSidebar}>
+                <Settings    className='nav-icon'  /> <span className={`${showName ?  'show-name' : 'hide-name' }`}>Settings</span>
+                </NavLink>
+
     
              
                 
@@ -87,7 +112,6 @@ const Layout = () => {
     </aside>
     
     <main className={`main-content ${isSidebarOpen ? "sidebar-open" : "sidebar-closed"}`}>
-        
         
         <Outlet/>
     </main>

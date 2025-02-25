@@ -398,6 +398,7 @@ input[type="checkbox"]:checked {
     display: flex;
     align-items: center;
     cursor: pointer;
+    height: 100px;
   }
   
   .order-id{
@@ -492,7 +493,7 @@ input[type="checkbox"]:checked {
       height: 85px;
       line-height: 29px;
       display: flex;
-      width: 170px;
+      width: 150px;
       /* margin: 5px; */
     }
      

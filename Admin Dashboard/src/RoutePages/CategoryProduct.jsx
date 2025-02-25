@@ -46,7 +46,7 @@ const CategoryProducts = () => {
             <div key={product._id} className="product-card">
               <img src={product.ProductImage[0]?.startsWith('http') ? product.ProductImage[0] : `http://localhost:5000${product.ProductImage || ''}`}
                   alt={product.ProductImage} />
-              <h3 style={{marginTop:"20px"}}>{product.ProductName}</h3>
+              <h3>{product.ProductName}</h3>
               <div className="price-section">
               <p>Price: {product.Price}</p>
               <p>Quantity : 19</p>
